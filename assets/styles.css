@@ -215,6 +215,7 @@ a {
   transform: translateX(-50%);
   text-align: center;
   color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
 }
 .hero-title h2 {
   font-family: var(--font-serif);
@@ -236,7 +237,8 @@ a {
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-  color: #fff;               /* or whatever light shade you prefer */
+  color: #eee;               /* or whatever light shade you prefer */
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 .hero-cta .date {
   color: #ddd;
@@ -249,4 +251,5 @@ a {
   padding: 0.75rem 1.5rem;
   border-radius: 4px;
   text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
