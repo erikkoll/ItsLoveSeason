@@ -210,7 +210,7 @@ a {
 /* Move JUST the white title up */
 .hero-title {
   position: absolute;
-  top: 30%;                  /* ← tweak this % to raise or lower the h2/h1 */
+  top: 20%;                  /* ← tweak this % to raise or lower the h2/h1 */
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
