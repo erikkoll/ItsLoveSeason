@@ -43,3 +43,19 @@ a {
   color: var(--accent);
   text-decoration: none;
 }
+.story-intro {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 1rem;
+}
+.story-grid img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1/1.5;
+}
