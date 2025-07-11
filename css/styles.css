@@ -52,10 +52,31 @@ a {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   gap: 1rem;
+  padding: 2rem;
 }
 .story-grid img {
   width: 100%;
   display: block;
   object-fit: cover;
-  aspect-ratio: 1/1.5;
+  aspect-ratio: 1 / 1.5;
+  border-radius: 8px;
+}
+
+.story-quotes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  background: #fafafa;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.story-quotes .quote p {
+  font-style: italic;
+  line-height: 1.6;
+}
+.story-quotes em {
+  display: block;
+  margin-top: 0.5rem;
+  font-style: normal;
+  font-weight: bold;
 }
