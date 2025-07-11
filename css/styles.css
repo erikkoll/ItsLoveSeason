@@ -80,3 +80,42 @@ a {
   font-style: normal;
   font-weight: bold;
 }
+.travel-page {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.location-section {
+  margin-bottom: 4rem;
+}
+
+.location-section h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.location-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+  font-style: italic;
+}
+
+.location-section p {
+  margin-bottom: 1rem;
+}
+
+.map {
+  margin: 1rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.directions {
+  list-style: none;
+  padding-left: 0;
+}
+
+.directions li {
+  margin-bottom: 0.5rem;
+}
