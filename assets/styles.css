@@ -242,14 +242,3 @@ a {
   color: #fff;                      /* lighten for legibility */
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
-.hero-btn {
-  display: inline-block;
-  background: rgb(166,138,100);       /* or use a hex like #D4AF37 for more muted “metallic” gold */
-  color: #111;            /* dark text for contrast */
-  padding: 0.75rem 1.5rem;
-  border: 1px solid #382c0b; /* slightly darker gold border */
-  border-radius: 4px;
-  text-decoration: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-  z-index: 2;                       /* ensure it sits above the overlay */
-}
