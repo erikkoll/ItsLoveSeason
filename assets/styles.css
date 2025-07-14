@@ -244,9 +244,10 @@ a {
 }
 .hero-btn {
   display: inline-block;
-  background: var(--accent);
-  color: #fff;                      /* pure white */
+  background: gold;       /* or use a hex like #D4AF37 for more muted “metallic” gold */
+  color: #111;            /* dark text for contrast */
   padding: 0.75rem 1.5rem;
+  border: 1px solid #b8952b; /* slightly darker gold border */
   border-radius: 4px;
   text-decoration: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
