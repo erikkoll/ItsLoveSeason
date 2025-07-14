@@ -197,7 +197,7 @@ a {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);  /* bumped from .4 to .6 for extra contrast */
+  background: rgba(0, 0, 0, 0.4);  /* bumped from .4 to .6 for extra contrast */
   z-index: 1;
 }
 
