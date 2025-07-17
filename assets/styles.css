@@ -242,3 +242,43 @@ a {
   color: #fff;                      /* lighten for legibility */
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
+/* Two-column Ceremony / Dinner layout */
+.event-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.event-details .detail {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.event-details h2 {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.event-details .time {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.event-details .location {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.event-details a {
+  color: var(--accent);
+  font-weight: bold;
+}
