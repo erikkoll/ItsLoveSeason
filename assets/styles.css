@@ -307,21 +307,20 @@ a {
     flex-direction: column;
   }
 }
-/* Container */
+/* See-how section */
 .see-how {
   background: var(--color-bg);
   padding: 4rem 2rem;
   text-align: center;
 }
 
-/* Heading */
 .see-how h2 {
   font-family: var(--font-serif);
   font-size: 2rem;
   margin-bottom: 2rem;
 }
 
-/* Lines + button row */
+/* Flex row for hr–button–hr */
 .see-how-cta {
   display: flex;
   align-items: center;
@@ -329,17 +328,18 @@ a {
   gap: 1rem;
 }
 
-/* The horizontal lines */
-.see-how-cta .line {
+/* Style the hr as a full-width line */
+.see-how-cta hr {
   flex: 1;
-  border: none;
-  border-top: 1px solid var(--color-text);
+  height: 1px;
   margin: 0;
+  background-color: var(--color-text);
+  border: none;
 }
 
-/* Outline button styling */
+/* Our Story button in the middle */
 .see-how-cta .btn.outline {
-  background: var(--accent); /* black */
+  background: var(--accent);  /* black */
   color: #fff;
   padding: 0.75rem 1.5rem;
   text-decoration: none;
@@ -348,13 +348,12 @@ a {
   font-family: var(--font-serif);
 }
 
-/* On narrow screens, stack them */
+/* Mobile stack fallback */
 @media (max-width: 480px) {
   .see-how-cta {
     flex-direction: column;
   }
-  .see-how-cta .line {
+  .see-how-cta hr {
     width: 50%;
-    margin: 0.5rem auto;
   }
 }
