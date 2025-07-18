@@ -307,35 +307,54 @@ a {
     flex-direction: column;
   }
 }
-/* “See how it all started” call-out */
+/* Container */
 .see-how {
   background: var(--color-bg);
   padding: 4rem 2rem;
+  text-align: center;
 }
 
-.see-how-inner {
+/* Heading */
+.see-how h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Lines + button row */
+.see-how-cta {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
 }
 
-.see-how-inner .line {
+/* The horizontal lines */
+.see-how-cta .line {
   flex: 1;
   border: none;
   border-top: 1px solid var(--color-text);
-}
-
-.see-how-inner h2 {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: 2rem;
 }
 
-.see-how-inner .btn {
-  padding: 0.75rem 1.5rem;
-  background: var(--accent);
+/* Outline button styling */
+.see-how-cta .btn.outline {
+  background: var(--accent); /* black */
   color: #fff;
+  padding: 0.75rem 1.5rem;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 0;
+  border: none;
+  font-family: var(--font-serif);
+}
+
+/* On narrow screens, stack them */
+@media (max-width: 480px) {
+  .see-how-cta {
+    flex-direction: column;
+  }
+  .see-how-cta .line {
+    width: 50%;
+    margin: 0.5rem auto;
+  }
 }
