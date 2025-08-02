@@ -357,31 +357,57 @@ a {
     width: 50%;
   }
 }
-/* Small callout between schedule and story link */
+/* Elegant Travel & Stay call-out */
 .travel-callout {
-  background: #fff;
-  padding: 1.5rem 2rem;
-  max-width: 800px;
-  margin: 2rem auto;
-  border-left: 4px solid var(--accent);
-  border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  position: relative;
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
   text-align: center;
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: var(--color-text);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(4px);
 }
 
+/* Decorative horizontal lines, using pseudo-elements */
+.travel-callout::before,
+.travel-callout::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 20%;
+  height: 1px;
+  background: var(--color-text);
+}
+.travel-callout::before { left: 0; }
+.travel-callout::after  { right: 0; }
+
+/* Remove default p margins */
 .travel-callout p {
   margin: 0;
-  font-size: 1rem;
-  color: var(--color-text);
+  display: inline-block;
+  background: transparent;
 }
 
+/* The “here” link as a gold-tone accent */
 .travel-callout .link-btn {
-  display: inline-block;
-  margin-left: 0.25rem;
+  color: #D4AF37;                  /* gold tone */
   font-weight: bold;
-  color: var(--accent);
   text-decoration: none;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--accent);
-  border-radius: 4px;
+  border-bottom: 2px solid #D4AF37;
+  padding-bottom: 2px;
+  margin-left: 0.25rem;
 }
+
+/* On small screens, shrink lines */
+@media (max-width: 480px) {
+  .travel-callout::before,
+  .travel-callout::after {
+    width: 10%;
+  }
+}
+
