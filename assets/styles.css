@@ -357,3 +357,31 @@ a {
     width: 50%;
   }
 }
+/* Small callout between schedule and story link */
+.travel-callout {
+  background: #fff;
+  padding: 1.5rem 2rem;
+  max-width: 800px;
+  margin: 2rem auto;
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.travel-callout p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.travel-callout .link-btn {
+  display: inline-block;
+  margin-left: 0.25rem;
+  font-weight: bold;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+}
