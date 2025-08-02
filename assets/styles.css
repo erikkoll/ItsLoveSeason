@@ -430,3 +430,78 @@ a {
   }
 }
 
+/* ─── Footer Section ─── */
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: var(--color-bg);
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.footer-col {
+  flex: 1;
+}
+
+.footer-left,
+.footer-right {
+  max-width: 200px;
+}
+
+.footer-center {
+  flex: 2;
+}
+
+.footer-label {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.footer-link,
+.footer-nav a {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.footer-link:hover,
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+
+/* Nav list */
+.footer-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-nav li {
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive stacking */
+@media (max-width: 768px) {
+  .site-footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+  }
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    max-width: none;
+    width: 100%;
+  }
+  .footer-center ul {
+    display: inline-block;
+    text-align: left;
+  }
+}
