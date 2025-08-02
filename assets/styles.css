@@ -307,39 +307,55 @@ a {
     flex-direction: column;
   }
 }
-/* See-how section */
+/* SEE HOW IT ALL STARTED */
 .see-how {
   background: var(--color-bg);
   padding: 4rem 2rem;
   text-align: center;
 }
 
+/* Heading */
 .see-how h2 {
   font-family: var(--font-serif);
   font-size: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
-/* Flex row for hr–button–hr */
+/* Container for your horizontal photo */
+.see-how-img {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.see-how-img img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Button row */
 .see-how-cta {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  margin-top: 2rem;
 }
 
-/* Style the hr as a full-width line */
+/* Lines */
 .see-how-cta hr {
   flex: 1;
   height: 1px;
-  margin: 0;
   background-color: var(--color-text);
   border: none;
+  margin: 0;
 }
 
-/* Our Story button in the middle */
+/* Center button */
 .see-how-cta .btn.outline {
-  background: var(--accent);  /* black */
+  background: var(--accent);
   color: #fff;
   padding: 0.75rem 1.5rem;
   text-decoration: none;
@@ -348,8 +364,11 @@ a {
   font-family: var(--font-serif);
 }
 
-/* Mobile stack fallback */
-@media (max-width: 480px) {
+/* Responsive: stack on mobile */
+@media (max-width: 600px) {
+  .see-how-img {
+    max-width: 100%;
+  }
   .see-how-cta {
     flex-direction: column;
   }
