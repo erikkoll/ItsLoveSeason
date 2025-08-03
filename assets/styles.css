@@ -509,9 +509,11 @@ a {
 .story-main-title {
   font-family: var(--font-serif);
   font-size: 2.5rem;
-  text-align: center;
-  margin: 3rem 0 2rem;
+  text-align: center;      /* ← center it horizontally */
+  margin: 4rem auto 2rem;  /* ← adds top spacing so it sits lower, auto‐centers left/right */
+  max-width: 800px;        /* optional—keeps it from stretching on super‐wide screens */
 }
+
 
 /* Story events now stack vertically */
 .story-event {
