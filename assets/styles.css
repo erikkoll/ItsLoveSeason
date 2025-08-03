@@ -505,3 +505,41 @@ a {
     text-align: left;
   }
 }
+/* Base styling for a story event */
+.story-event {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  align-items: center;
+  margin: 4rem 0;
+}
+
+/* Flip image/text order on even events (optional) */
+.story-event:nth-child(even) {
+  direction: rtl;
+}
+.story-event:nth-child(even) .story-text,
+.story-event:nth-child(even) .story-img {
+  direction: ltr; /* keep inner content left-to-right */
+}
+
+/* Image container */
+.story-img img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  object-fit: cover;
+}
+
+/* Text container */
+.story-text {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+}
+
+/* Caption style */
+.event-caption {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
