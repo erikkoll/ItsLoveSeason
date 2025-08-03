@@ -505,41 +505,60 @@ a {
     text-align: left;
   }
 }
-/* Base styling for a story event */
+/* Page title under the nav */
+.story-main-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 3rem 0 2rem;
+}
+
+/* Story events now stack vertically */
 .story-event {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-direction: column;    /* text above image */
   gap: 2rem;
-  align-items: center;
-  margin: 4rem 0;
+  max-width: 800px;
+  margin: 0 auto 4rem;
 }
 
-/* Flip image/text order on even events (optional) */
-.story-event:nth-child(even) {
-  direction: rtl;
-}
-.story-event:nth-child(even) .story-text,
-.story-event:nth-child(even) .story-img {
-  direction: ltr; /* keep inner content left-to-right */
-}
-
-/* Image container */
+/* Image styling */
 .story-img img {
   width: 100%;
   height: auto;
   border-radius: 8px;
-  display: block;
   object-fit: cover;
+  display: block;
 }
 
-/* Text container */
+/* Text block */
 .story-text {
   font-family: var(--font-sans);
   color: var(--color-text);
 }
 
-/* Caption style */
+/* Caption styling */
 .event-caption {
   font-size: 1.125rem;
   line-height: 1.6;
+}
+
+/* Quotes unchanged */
+.story-quotes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  background: #fafafa;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.story-quotes .quote p {
+  font-style: italic;
+  line-height: 1.6;
+}
+.story-quotes em {
+  display: block;
+  margin-top: 0.5rem;
+  font-style: normal;
+  font-weight: bold;
 }
