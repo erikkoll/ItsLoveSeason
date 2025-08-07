@@ -56,6 +56,43 @@
         <li><strong>Recommended pick-up:</strong> We’ll arrange a shuttle from Girona airport on the day—details to follow.</li>
       </ul>
     </section>
+    <!-- BOOK YOUR STAY -->
+<section class="hotel-booking" id="hotel-booking">
+  <h2>Book Your Room</h2>
+  <p>
+    We’ve arranged a discount for our guests at
+    <a href="https://hotelsantamarta.es/en/" target="_blank" rel="noopener">
+      Hotel Santa Marta
+    </a>.
+    Use the code <code id="discount-code">PalmaColl</code> when booking.
+  </p>
+
+  <div class="booking-actions">
+    <a href="https://hotelsantamarta.es/en/" class="btn" target="_blank" rel="noopener">
+      Book at Hotel Santa Marta
+    </a>
+    <button class="btn outline" id="copy-code">Copy code</button>
+    <span class="copy-status" id="copy-status" aria-live="polite"></span>
+  </div>
+</section>
+
+<!-- Copy-to-clipboard (vanilla JS) -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const copyBtn = document.getElementById('copy-code');
+    const status  = document.getElementById('copy-status');
+    copyBtn?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('PalmaColl');
+        status.textContent = 'Copied!';
+        setTimeout(() => status.textContent = '', 1500);
+      } catch (e) {
+        status.textContent = 'Copy failed';
+      }
+    });
+  });
+</script>
+
   </main>
 </body>
 </html>

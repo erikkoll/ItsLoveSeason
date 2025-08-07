@@ -564,3 +564,65 @@ a {
   font-style: normal;
   font-weight: bold;
 }
+/* Book-your-stay callout */
+.hotel-booking {
+  max-width: 800px;
+  margin: 3rem auto 4rem;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.hotel-booking h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.hotel-booking p {
+  margin: 0 auto 1rem;
+  line-height: 1.6;
+  max-width: 48ch;
+}
+
+.hotel-booking code {
+  background: #f6f6f6;
+  border: 1px solid #e4e4e4;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+/* Buttons row */
+.booking-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+/* Optional: give the primary button a gold tone to match your palette */
+.hotel-booking .btn {
+  background: #D4AF37;  /* gold */
+  color: #111;
+  border: 1px solid #b8952b;
+  text-decoration: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 6px;
+}
+
+.hotel-booking .btn.outline {
+  background: transparent;
+  color: #D4AF37;
+  border: 1px solid #D4AF37;
+}
+
+.copy-status {
+  min-width: 64px;
+  font-size: 0.9rem;
+  color: #666;
+  align-self: center;
+}
