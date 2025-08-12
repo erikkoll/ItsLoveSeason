@@ -783,3 +783,11 @@ a {
 }
 
 /* Keep your code pill as-is; it already looks friendly */
+/* footer signature */
+.footer-right { text-align: right; }
+.footer-signature a {
+  font-size: 0.9rem;
+  color: #8a8a8a;
+  text-decoration: none;
+}
+.footer-signature a:hover { text-decoration: underline; color: #555; }
