@@ -736,3 +736,50 @@ a {
   font-size: 0.95rem;
   margin-top: 0.25rem;
 }
+/* ── Soft, non-salesy card variant ────────────────────────────────────────── */
+.hotel-booking.softcard {
+  /* gentler palette + rounded card */
+  background: #fffefb;
+  border: 1px solid #eee6cc;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  max-width: 860px;
+  margin: 3rem auto 4rem;
+  padding: 2rem 1.75rem;
+  text-align: center;
+}
+
+.hotel-booking.softcard h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  margin: 0 0 0.6rem;
+}
+
+.hotel-booking.softcard p {
+  margin: 0 auto 1rem;
+  max-width: 62ch;
+  line-height: 1.7;
+  color: #333;
+}
+
+/* Buttons: keep them as buttons, but quieter */
+.hotel-booking .btn-primary.subtle {
+  background: #f3e7b5;        /* light gold */
+  border-color: #dcc57b;
+  color: #111;
+}
+.hotel-booking .btn-primary.subtle:hover {
+  background: #eedc9a;
+  transform: translateY(-1px);
+}
+
+/* outline stays but with lighter border */
+.hotel-booking .btn-ghost {
+  color: #a9861f;             /* softer gold tone */
+  border-color: #d9c890;
+}
+.hotel-booking .btn-ghost:hover {
+  background: rgba(212,175,55,0.08);
+}
+
+/* Keep your code pill as-is; it already looks friendly */
