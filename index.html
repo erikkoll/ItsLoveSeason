@@ -90,37 +90,13 @@
     <hr />
   </div>
 </section>
-<!-- FINAL FOOTER SECTION -->
-<footer class="site-footer">
-  <!-- Left column -->
-  <div class="footer-col footer-left">
-    <p class="footer-label">Questions?</p>
-    <p>
-      <a href="mailto:eric.coll.95@gmail.com,gabrielaipalma@gmail.com" class="footer-link">
-        Email Us
-      </a>
-    </p>
-  </div>
+<div id="site-footer"></div>
+<script>
+  fetch('footer.html')
+    .then(r => r.text())
+    .then(html => { document.getElementById('site-footer').outerHTML = html; });
+</script>
 
-  <!-- Center column -->
-  <div class="footer-col footer-center">
-    <nav class="footer-nav">
-      <ul>
-        <li><a href="story.html">Our Story</a></li>
-        <li><a href="travel.html">Travel &amp; Stay</a></li>
-        <li><a href="registry.html">Registry</a></li>
-        <li><a href="https://forms.gle/LatP6yPRWj7KFBCj8" class="btn" target="_blank" rel="noopener">RSVP</a></li>
-      </ul>
-    </nav>
-  </div>
-
-  <!-- Right column -->
-  <div class="footer-col footer-right">
-    <p class="footer-label">With love,</p>
-    <!-- replace with actual social links if you like -->
-    <p><strong>Eric &amp; Gabriela</strong></p>
-  </div>
-</footer>
 
 </body>
 </html>

@@ -107,3 +107,9 @@
     });
   });
 </script>
+<div id="site-footer"></div>
+<script>
+  fetch('footer.html')
+    .then(r => r.text())
+    .then(html => { document.getElementById('site-footer').outerHTML = html; });
+</script>
