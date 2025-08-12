@@ -30,20 +30,37 @@
     .gate-hint{ min-height: 1.25rem; color:#555; font-size:.95rem; margin-top:.4rem; }
     .no-scroll{ overflow: hidden; }
 
-    /* Hide content until unlocked */
-    #secret-content[hidden] { display: none !important; }
-
     /* Optional: a friendly success banner */
     .unlock-banner {
       background: #f5f9f2; border: 1px solid #d9ecd0; color:#244f1a;
       padding: .75rem 1rem; border-radius: 8px; max-width: 820px; margin: 2rem auto 0;
     }
+    /* Make the overlay also blur what's behind it */
+.gate-overlay {
+  background: rgba(0,0,0,.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px); /* Safari */
+}
+
+/* Blur and disable the page content until unlocked */
+#secret-content { transition: filter 220ms ease; }
+#secret-content.blurred {
+  filter: blur(10px);
+  pointer-events: none;   /* prevent interaction through the blur */
+  user-select: none;      /* no text selection */
+}
+
+/* (optional) smoother feel when motion allowed */
+@media (prefers-reduced-motion: reduce) {
+  #secret-content { transition: none; }
+}
+
   </style>
 </head>
 <body>
   <!-- (Optional) include your site nav if you want consistency -->
 
-  <main id="secret-content" hidden>
+  <main id="secret-content" class="blurred">
     <div class="unlock-banner">Welcome, hoopy frood. ✨</div>
     <section style="max-width: 820px; margin: 2rem auto; padding: 0 1rem;">
       <h1 class="story-main-title" style="margin-top:1rem;">Hidden Page</h1>
@@ -84,10 +101,11 @@
 
       function openContent(){
         gate.style.display = 'none';
-        content.hidden = false;
+        content.classList.remove('blurred');
         document.body.classList.remove('no-scroll');
         try { localStorage.setItem('deep_thought_ok','1'); } catch(e){}
       }
+
 
       function normalise(str){
         return (str||'')
