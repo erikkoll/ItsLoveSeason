@@ -226,7 +226,7 @@
     async function loadRatings() {
       if (!USERNAME) return;
       try {
-        const res = await fetch(`https://lichess.org/api/user/${USERNAME}`);
+        const res = await fetch(`https://lichess.org/api/user/${erikkoll}`);
         if (!res.ok) return;
         const data = await res.json();
         const speed = data?.perfs || {};
