@@ -108,6 +108,7 @@
   </div>
 </section>
 
+
     </section>
   </main>
 
@@ -184,33 +185,34 @@
       This page needs JavaScript for the gate. Enable JS to continue.
     </p>
   </noscript>
+<!-- Libraries for bot board -->
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stockfish@16.1.0/src/stockfish.js"></script>
+
 <script>
   (function () {
-    // 1) Personalise your Lichess username here (used for the challenge link and rating fetch)
-    const USERNAME = 'YOUR_LICHESS_USERNAME'; // <-- change this
-    const profileLink = document.getElementById('challengeLink');
-    if (USERNAME && profileLink) {
-      profileLink.href = `https://lichess.org/@/${USERNAME}`;
-    }
+    // --- 1) Prefill best win & show it immediately
+    const BEST_ID = 'JGHVTwkz'; // from https://lichess.org/JGHVTwkz/black#30
+    const frame = document.getElementById('gameEmbed');
+    const wrap  = document.getElementById('gameEmbedWrap');
+    frame.src = `https://lichess.org/embed/game/${BEST_ID}?theme=auto&bg=auto`;
+    wrap.hidden = false;
 
-    // 2) Paste a Lichess game URL to embed (handles urls like https://lichess.org/abc123 or with extra path)
+    // Also allow loading any other game by URL
     const gameForm = document.getElementById('gameForm');
     const gameUrl  = document.getElementById('gameUrl');
-    const wrap     = document.getElementById('gameEmbedWrap');
-    const frame    = document.getElementById('gameEmbed');
-
     function extractGameId(url) {
       try {
         const u = new URL(url);
-        // Game id is first pathname segment (e.g., /abc123, /abc123/black, /study/… is ignored)
         const parts = u.pathname.split('/').filter(Boolean);
-        if (!parts.length) return null;
-        // Ignore /study links
-        if (parts[0].toLowerCase() === 'study') return null;
+        if (!parts.length || parts[0].toLowerCase() === 'study') return null;
         return parts[0];
       } catch { return null; }
     }
-
     gameForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const id = extractGameId(gameUrl.value);
@@ -219,36 +221,119 @@
       wrap.hidden = false;
     });
 
-    // 3) (Nice touch) show current ratings if Lichess allows fetch from the browser
-    const ratingBox = document.getElementById('ratingBox');
+    // --- 2) Show live ratings (best-effort; silently ignore if blocked)
+    const ratingBox  = document.getElementById('ratingBox');
     const ratingList = document.getElementById('ratingList');
-
-    async function loadRatings() {
-      if (!USERNAME) return;
-      try {
-        const res = await fetch(`https://lichess.org/api/user/${erikkoll}`);
-        if (!res.ok) return;
-        const data = await res.json();
-        const speed = data?.perfs || {};
-        const items = [
-          ['Bullet', speed.bullet?.rating],
-          ['Blitz',  speed.blitz?.rating],
-          ['Rapid',  speed.rapid?.rating],
-        ].filter(([, r]) => typeof r === 'number');
-
-        if (items.length) {
-          ratingBox.hidden = false;
-          ratingList.innerHTML = items
-            .map(([k, v]) => `<span><strong>${k}:</strong> ${v}</span>`)
-            .join('');
-        }
-      } catch (e) {
-        // CORS or network blocked → silently ignore
+    fetch('https://lichess.org/api/user/erikkoll').then(r => r.ok ? r.json() : null).then(data => {
+      if (!data) return;
+      const p = data.perfs || {};
+      const items = [
+        ['Bullet', p.bullet?.rating],
+        ['Blitz',  p.blitz?.rating],
+        ['Rapid',  p.rapid?.rating],
+      ].filter(([,r]) => typeof r === 'number');
+      if (items.length) {
+        ratingBox.hidden = false;
+        ratingList.innerHTML = items.map(([k,v]) => `<span><strong>${k}:</strong> ${v}</span>`).join('');
       }
+    }).catch(()=>{});
+
+    // --- 3) Eric-level bot (Stockfish with UCI Elo limit)
+    const ELO = 1614; // your current rating
+    const status = document.getElementById('engineStatus');
+    const newBtn = document.getElementById('newGameBtn');
+    const colorInputs = Array.from(document.querySelectorAll('input[name="color"]'));
+
+    const game = new Chess();
+    let board, engine, playerColor = 'white', engineReady = false;
+
+    function initEngine() {
+      engine = STOCKFISH();
+      engine.onmessage = (event) => {
+        const line = typeof event === 'string' ? event : event.data;
+        if (line === 'uciok') {
+          engine.postMessage('isready');
+        } else if (line === 'readyok') {
+          engineReady = true;
+          status.textContent = `Engine ready (limited to ~${ELO} Elo)`;
+          maybeEngineMove();
+        } else if (line.startsWith('bestmove')) {
+          const move = line.split(' ')[1];
+          if (move && move !== '(none)') {
+            const from = move.slice(0,2), to = move.slice(2,4), promo = move.slice(4) || 'q';
+            game.move({ from, to, promotion: promo });
+            board.position(game.fen());
+            status.textContent = '';
+            maybeEngineMove(); // If still engine to move (e.g., illegal input)
+          }
+        }
+      };
+      engine.postMessage('uci');
+      engine.postMessage('setoption name UCI_LimitStrength value true');
+      engine.postMessage(`setoption name UCI_Elo value ${ELO}`);
+      engine.postMessage('ucinewgame');
+      engine.postMessage('isready');
     }
-    loadRatings();
+
+    function initBoard() {
+      board = Chessboard('ericBotBoard', {
+        draggable: true,
+        position: 'start',
+        orientation: playerColor,
+        onDragStart: (source, piece) => {
+          // only allow user to move their own pieces & if game not over
+          if (game.game_over()) return false;
+          if (playerColor === 'white' && piece.search(/^b/) !== -1) return false;
+          if (playerColor === 'black' && piece.search(/^w/) !== -1) return false;
+        },
+        onDrop: (source, target) => {
+          const move = game.move({ from: source, to: target, promotion: 'q' });
+          if (!move) return 'snapback';
+        },
+        onSnapEnd: () => {
+          board.position(game.fen());
+          maybeEngineMove();
+        }
+      });
+      maybeEngineMove(); // in case engine should start
+    }
+
+    function engineGo() {
+      if (!engineReady) return;
+      engine.postMessage(`position fen ${game.fen()}`);
+      // “movetime” keeps the feel casual; tweak to taste
+      engine.postMessage('go movetime 1200');
+      status.textContent = 'Thinking…';
+    }
+
+    function maybeEngineMove() {
+      const engineColor = (playerColor === 'white') ? 'b' : 'w';
+      if (!game.game_over() && game.turn() === engineColor) engineGo();
+    }
+
+    function resetGame() {
+      game.reset();
+      board.orientation(playerColor);
+      board.start();
+      engine.postMessage('ucinewgame');
+      maybeEngineMove();
+    }
+
+    // color controls + new game
+    colorInputs.forEach(r => r.addEventListener('change', () => {
+      playerColor = document.querySelector('input[name="color"]:checked').value;
+      resetGame();
+    }));
+    newBtn.addEventListener('click', resetGame);
+
+    // init
+    initEngine();
+    initBoard();
+    // if user chose black, let engine open
+    if (playerColor === 'black') maybeEngineMove();
   })();
 </script>
+
 
 </body>
 </html>
