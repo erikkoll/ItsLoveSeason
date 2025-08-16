@@ -791,3 +791,23 @@ a {
   text-decoration: none;
 }
 .footer-signature a:hover { text-decoration: underline; color: #555; }
+/* Make footer columns equal height and let items stack top→bottom */
+.site-footer {
+  display: flex;           /* if it's already flex, this won't hurt */
+  gap: 2rem;
+  align-items: stretch;    /* equal heights across columns */
+}
+
+/* Stack each column vertically */
+.footer-col {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Push signature to the bottom of the right column */
+.footer-right { text-align: right; }
+.footer-right .footer-signature { 
+  margin-top: auto;        /* magic line → sends it to the bottom */
+  opacity: .85;
+}
