@@ -48,9 +48,9 @@
     .card h3 { margin:0 0 .4rem; font-family: var(--font-serif); }
 
     .inline { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
-    .inline input[type="url"]{ flex:1 1 280px; padding:.6rem .75rem; border:1px solid #ddd; border-radius:8px; }
 
-    .btn { display:inline-block; border-radius:8px; padding:.6rem 1rem; background:#f3e7b5; border:1px solid #dcc57b; color:#111; text-decoration:none; font-weight:600; }
+    .btn { display:inline-block; border-radius:8px; padding:.6rem 1rem;
+           background:#f3e7b5; border:1px solid #dcc57b; color:#111; text-decoration:none; font-weight:600; }
     .btn:hover { background:#eedc9a; }
     .btn.outline { background:transparent; border-color:#d9c890; color:#a9861f; }
     .btn.outline:hover { background:rgba(212,175,55,0.08); }
@@ -58,10 +58,10 @@
     .mini-rating { margin-top:.75rem; font-size:.95rem; }
     .mini-rating #ratingList { margin-top:.25rem; display:grid; grid-template-columns:repeat(3,auto); gap:.6rem 1rem; }
 
-    /* Lichess embed: extra height for header so bottom rank isn’t cropped */
-    .embed-wrap { position:relative; width:100%; aspect-ratio: 1 / 1.12; }
+    /* Lichess embed: tuned height so no side letterboxing */
+    .embed-wrap { position:relative; width:100%; aspect-ratio: 1 / 1.06; }
     .embed-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:0; border-radius:10px; }
-    @media (min-width: 1100px) { .embed-wrap { max-width: 520px; margin-inline:auto; } }
+    @media (min-width: 1100px) { .embed-wrap { max-width: 480px; margin-inline:auto; } }
 
     /* Board sizing */
     .board-wrap { width:100%; max-width:520px; margin:0 auto; }
@@ -104,11 +104,6 @@
             <iframe id="gameEmbed" title="Lichess game replay"
               loading="lazy" allowfullscreen></iframe>
           </div>
-
-          <form class="inline" id="gameForm" style="margin-top:.75rem">
-            <input type="url" id="gameUrl" placeholder="Paste any Lichess game URL (optional)">
-            <button type="submit" class="btn outline">Load game</button>
-          </form>
         </article>
 
         <!-- Card 3: Play “Eric-level” bot -->
@@ -121,8 +116,8 @@
           </div>
 
           <div class="inline" style="margin-top:.6rem">
-            <label><input type="radio" name="color" value="white" checked> You play White</label>
-            <label><input type="radio" name="color" value="black"> You play Black</label>
+            <label><input type="radio" name="color" value="white"> You play White</label>
+            <label><input type="radio" name="color" value="black" checked> You play Black</label>
             <button class="btn outline" id="newGameBtn" type="button">New game</button>
           </div>
 
@@ -199,36 +194,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
-  <!-- Reliable Stockfish build that works well on GitHub Pages -->
+  <!-- Robust Stockfish build; exposes either STOCKFISH() or Stockfish() -->
   <script src="https://cdn.jsdelivr.net/gh/niklasf/stockfish.js/stockfish.js"></script>
 
   <!-- ===== Chess corner logic ===== -->
   <script>
     (function () {
       /* --- Best win embed --- */
-      const BEST_ID = 'JGHVTwkz'; // from https://lichess.org/JGHVTwkz/black#30
+      const BEST_ID = 'JGHVTwkz';
       const frame = document.getElementById('gameEmbed');
       const wrap  = document.getElementById('gameEmbedWrap');
       frame.src = `https://lichess.org/embed/game/${BEST_ID}?theme=auto&bg=auto`;
       wrap.hidden = false;
-
-      const gameForm = document.getElementById('gameForm');
-      const gameUrl  = document.getElementById('gameUrl');
-      function extractGameId(url) {
-        try {
-          const u = new URL(url);
-          const parts = u.pathname.split('/').filter(Boolean);
-          if (!parts.length || parts[0].toLowerCase() === 'study') return null;
-          return parts[0];
-        } catch { return null; }
-      }
-      gameForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const id = extractGameId(gameUrl.value);
-        if (!id) { alert('Please paste a valid Lichess game URL.'); return; }
-        frame.src = `https://lichess.org/embed/game/${id}?theme=auto&bg=auto`;
-        wrap.hidden = false;
-      });
 
       /* --- Ratings (best-effort) --- */
       const ratingBox  = document.getElementById('ratingBox');
@@ -255,46 +232,12 @@
       const newBtn     = document.getElementById('newGameBtn');
       const colorRadios= Array.from(document.querySelectorAll('input[name="color"]'));
 
-      let playerColor = (document.querySelector('input[name="color"]:checked')?.value) || 'white';
+      // Use whichever global the engine exposes
+      const engineFactory = window.STOCKFISH || window.Stockfish;
 
+      let playerColor = (document.querySelector('input[name="color"]:checked')?.value) || 'white';
       const game = new Chess();
       let board, engine, engineReady = false;
-
-      function initEngine() {
-        engine = STOCKFISH();
-        engine.onmessage = (event) => {
-          const line = (typeof event === 'string') ? event : event.data;
-          if (!line) return;
-
-          if (line === 'uciok') {
-            engine.postMessage('isready');
-            return;
-          }
-          if (line === 'readyok') {
-            engineReady = true;
-            statusEl.textContent = `Engine ready (limited strength)`;
-            // Try Elo limiter; also set Skill Level fallback (~8 ≈ ~1600)
-            engine.postMessage('setoption name UCI_LimitStrength value true');
-            engine.postMessage(`setoption name UCI_Elo value ${ELO_TARGET}`);
-            engine.postMessage('setoption name Skill Level value 8');
-            maybeEngineMove();
-            return;
-          }
-          if (line.startsWith('bestmove')) {
-            const best = line.split(/\s+/)[1];
-            if (best && best !== '(none)') {
-              const from  = best.slice(0,2);
-              const to    = best.slice(2,4);
-              const promo = best.slice(4) || 'q';
-              game.move({ from, to, promotion: promo });
-              board.position(game.fen());
-              statusEl.textContent = '';
-              maybeEngineMove();
-            }
-          }
-        };
-        engine.postMessage('uci');
-      }
 
       function initBoard() {
         board = Chessboard('ericBotBoard', {
@@ -315,12 +258,55 @@
             maybeEngineMove();
           }
         });
+        // Ensure the board sizes itself
+        setTimeout(() => board.resize(), 0);
+        window.addEventListener('resize', () => board && board.resize());
+      }
+
+      function initEngine() {
+        if (!engineFactory) {
+          statusEl.textContent = 'Could not load Stockfish (network blocked?).';
+          return;
+        }
+        statusEl.textContent = 'Loading engine…';
+        engine = engineFactory();
+        engine.onmessage = (event) => {
+          const line = (typeof event === 'string') ? event : event.data;
+          if (!line) return;
+
+          if (line === 'uciok') {
+            engine.postMessage('isready');
+            return;
+          }
+          if (line === 'readyok') {
+            engineReady = true;
+            statusEl.textContent = 'Engine ready';
+            engine.postMessage('setoption name UCI_LimitStrength value true');
+            engine.postMessage(`setoption name UCI_Elo value ${ELO_TARGET}`);
+            engine.postMessage('setoption name Skill Level value 8'); // fallback
+            maybeEngineMove();
+            return;
+          }
+          if (line.startsWith('bestmove')) {
+            const best = line.split(/\s+/)[1];
+            if (best && best !== '(none)') {
+              const from  = best.slice(0,2);
+              const to    = best.slice(2,4);
+              const promo = best.slice(4) || 'q';
+              game.move({ from, to, promotion: promo });
+              board.position(game.fen());
+              statusEl.textContent = '';
+              maybeEngineMove();
+            }
+          }
+        };
+        engine.postMessage('uci');
       }
 
       function engineGo() {
         if (!engineReady) return;
         engine.postMessage(`position fen ${game.fen()}`);
-        engine.postMessage('go movetime 1200'); // tweak for strength
+        engine.postMessage('go movetime 1200'); // tweak to adjust strength
         statusEl.textContent = 'Thinking…';
       }
 
@@ -334,6 +320,8 @@
         board.orientation(playerColor);
         board.start();
         if (engine) engine.postMessage('ucinewgame');
+        // Resize just in case the card width changed
+        board.resize();
         maybeEngineMove();
       }
 
@@ -343,9 +331,8 @@
       }));
       newBtn.addEventListener('click', resetGame);
 
-      // Init
-      initEngine();
       initBoard();
+      initEngine();
       if (playerColor === 'black') maybeEngineMove();
     })();
   </script>
