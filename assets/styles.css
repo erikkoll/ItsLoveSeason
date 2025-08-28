@@ -475,23 +475,26 @@ a { color: var(--accent); text-decoration: none; }
   position: absolute; inset: 0; width: 100%; height: 100%;
   border: 0; border-radius: 10px;
 }
-/* Put the travel-callout side rules BEHIND the text and shorten them a bit */
+/* Travel callout: keep side lines behind the text and a bit shorter */
 .travel-callout { position: relative; }
 .travel-callout::before,
 .travel-callout::after{
-  z-index: 0;                     /* behind text */
+  z-index: 0;                      /* behind text */
   top: 50%;
   transform: translateY(-50%);
-  opacity: .45;                   /* calmer line */
-  width: clamp(80px, 18%, 180px); /* shorter so they don't cross the text */
+  opacity: .45;
+  width: clamp(80px, 18%, 180px);  /* shorter so they don't cross text */
 }
 .travel-callout p{
-  position: relative;             /* sits above the rules */
+  position: relative;              /* above lines */
   z-index: 1;
 }
-/* Tidy spacing between the “See how it all started” section and the footer */
+
 .see-how { padding-bottom: 2rem; }
-.site-footer { margin: 3rem auto 2rem; } /* was bigger before */
+.site-footer { margin: 3rem auto 2rem; }
+.see-how-cta hr { opacity: .35; }   /* optional: calmer lines */
+
+
 /* Mobile footer layout: 2 columns (left/right) + center nav below */
 @media (max-width: 768px){
   .site-footer{
