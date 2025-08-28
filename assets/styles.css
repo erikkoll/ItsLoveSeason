@@ -520,3 +520,8 @@ a { color: var(--accent); text-decoration: none; }
     border-radius: 10px;
   }
 }
+/* Remove the horizontal lines in the travel callout */
+.travel-callout::before,
+.travel-callout::after {
+  content: none !important;   /* or display: none; */
+}
