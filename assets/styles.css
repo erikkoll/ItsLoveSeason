@@ -982,3 +982,43 @@ a {
   .main-nav{ --nav-height: 48px; --gap: 1.25rem; }
   .main-nav li::before{ display:none; } /* separators off on small screens */
 }
+/* Keep menu items on one line and normalize RSVP button height */
+.main-nav ul{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:2rem;                 /* desktop gap */
+  flex-wrap:nowrap;         /* no wrapping */
+}
+.main-nav li{ flex:0 0 auto; }
+.main-nav a{ white-space:nowrap; }   /* e.g., "Travel & Stay" stays on one line */
+
+/* Make RSVP pill height consistent with links */
+.main-nav .btn{
+  display:inline-flex;
+  align-items:center;
+  line-height:1;            /* same text height as links */
+  padding:.55rem .95rem;    /* sane default */
+  border-radius:12px;
+  font-weight:700;
+}
+
+/* Tablet down: tighter gaps and slightly smaller type */
+@media (max-width: 900px){
+  .main-nav ul{ gap:1.2rem; padding-inline:8px; }
+  .main-nav a{ font-size:clamp(15px,1.9vw,18px); }
+  .main-nav .btn{ font-size:clamp(14px,1.8vw,17px); padding:.45rem .8rem; }
+}
+
+/* Small phones */
+@media (max-width: 520px){
+  .main-nav ul{ gap:.65rem; }
+  .main-nav a{ font-size:14px; }
+  .main-nav .btn{ font-size:14px; padding:.35rem .6rem; border-radius:10px; }
+}
+
+/* Very narrow devices */
+@media (max-width: 380px){
+  .main-nav a{ font-size:13px; }
+  .main-nav .btn{ font-size:13px; padding:.3rem .5rem; }
+}
