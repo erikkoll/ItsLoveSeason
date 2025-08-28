@@ -1,30 +1,18 @@
-/* Reset and root vars */
+/* ===================================================================
+   GLOBAL RESET & VARIABLES
+   =================================================================== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
   --font-serif: Georgia, serif;
   --font-sans: Arial, sans-serif;
   --bg: #f2f2f2;
   --text: #222;
   --accent: #000;
-}
 
-.main-nav {
-  background: white;
-  padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-.main-nav ul {
-  display: flex;
-  justify-content: center;
-  list-style: none;
-}
-.main-nav li {
-  margin: 0 1rem;
-}
-.main-nav .btn {
-  padding: 0.5em 1em;
-  border: 1px solid var(--accent);
-  border-radius: 4px;
+  /* Aliases you reference elsewhere */
+  --color-bg: var(--bg);
+  --color-text: var(--text);
 }
 
 body {
@@ -34,156 +22,64 @@ body {
   line-height: 1.5;
 }
 
-h1, h2, h3 {
-  font-family: var(--font-serif);
-  margin-bottom: 0.5em;
+h1, h2, h3 { font-family: var(--font-serif); margin-bottom: 0.5em; }
+a { color: var(--accent); text-decoration: none; }
+
+/* ===================================================================
+   CANONICAL NAVBAR (single source of truth)
+   Keeps items one-line on mobile, RSVP same height as links
+   =================================================================== */
+.main-nav {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
-a {
-  color: var(--accent);
+.main-nav ul{
+  display: flex;
+  align-items: center;             /* vertical align */
+  justify-content: center;
+  flex-wrap: nowrap;               /* never wrap to two lines */
+  gap: clamp(.6rem, 4vw, 2rem);    /* responsive spacing */
+  padding: clamp(.45rem, 1.8vw, .85rem) 1rem;
+  margin: 0;
+  list-style: none;
+}
+
+.main-nav li{ flex: 0 0 auto; }
+
+.main-nav a{
+  display: flex;
+  align-items: center;
+  white-space: nowrap;             /* keep “Travel & Stay” on one line */
+  font-size: clamp(.95rem, 2.6vw, 1.1rem);
+  line-height: 1;
+  padding: .25rem .4rem;           /* no extra vertical height */
+  color: var(--text);
   text-decoration: none;
 }
-.story-intro {
-  padding: 4rem 2rem;
-  text-align: center;
+
+/* RSVP pill = distinct look, same visual height */
+.main-nav .btn{
+  display: inline-flex;
+  align-items: center;
+  padding: .38rem .75rem;
+  line-height: 1;
+  font-size: clamp(.93rem, 2.5vw, 1.05rem);
+  font-weight: 700;
+  border: 1px solid var(--accent);
+  border-radius: .75rem;
+  background: #f3e7b5;
 }
 
-.story-grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 1rem;
-  padding: 2rem;
-}
-.story-grid img {
-  width: 100%;
-  display: block;
-  object-fit: cover;
-  aspect-ratio: 1 / 1.5;
-  border-radius: 8px;
+/* Tiny phones: squeeze a bit more spacing */
+@media (max-width: 400px){
+  .main-nav ul{ gap: .55rem; }
+  .main-nav .btn{ padding: .32rem .6rem; }
 }
 
-.story-quotes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  background: #fafafa;
-  padding: 3rem 2rem;
-  text-align: center;
-}
-.story-quotes .quote p {
-  font-style: italic;
-  line-height: 1.6;
-}
-.story-quotes em {
-  display: block;
-  margin-top: 0.5rem;
-  font-style: normal;
-  font-weight: bold;
-}
-.travel-page {
-  max-width: 800px;
-  margin: auto;
-  padding: 2rem;
-}
-
-.location-section {
-  margin-bottom: 4rem;
-}
-
-.location-section h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.location-section h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.25rem;
-  font-style: italic;
-}
-
-.location-section p {
-  margin-bottom: 1rem;
-}
-
-.map {
-  margin: 1rem 0;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.directions {
-  list-style: none;
-  padding-left: 0;
-}
-
-.directions li {
-  margin-bottom: 0.5rem;
-}
-.registry-page {
-  max-width: 600px;
-  margin: auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.registry-intro p {
-  margin-bottom: 2rem;
-}
-
-.registry-links ul {
-  list-style: none;
-  padding: 0;
-}
-
-.registry-links li {
-  margin: 1rem 0;
-}
-
-.registry-links a {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border: 2px solid var(--accent);
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: bold;
-}
-.rsvp-section {
-  background: white;
-  padding: 3rem 2rem;
-  max-width: 500px;
-  margin: 4rem auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  text-align: left;
-}
-
-.rsvp-section h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.rsvp-form label {
-  display: block;
-  margin-bottom: 1rem;
-}
-
-.rsvp-form input,
-.rsvp-form select {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.25rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.rsvp-form .btn {
-  display: block;
-  width: 100%;
-  margin-top: 1.5rem;
-  text-align: center;
-}
-
-/* HERO container & background */
+/* ===================================================================
+   HERO
+   =================================================================== */
 .hero {
   position: relative;
   width: 100%;
@@ -192,57 +88,55 @@ a {
   overflow: hidden;
 }
 
-/* Overlay dims only the image (z-index: 1) */
+/* Overlay dims only the image */
 .hero::after {
   content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.2);  /* bumped from .4 to .6 for extra contrast */
+  position: absolute; inset: 0;
+  background: rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
-/* Base for both title + CTA to sit above overlay */
+/* Title & CTA sit above overlay */
 .hero-title,
 .hero-cta {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-  z-index: 2;                       /* above the overlay */
+  z-index: 2;
 }
 
-/* Move JUST the white title up */
-.hero-title {
-  top: 20%;                         /* tweak this % to nudge the h2/h1 */
-}
+/* Title higher */
+.hero-title { top: 20%; }
 .hero-title h2 {
   font-family: var(--font-serif);
   font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 0.5rem;
-  color: #fff;                      /* pure white */
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.8);
 }
 .hero-title h1 {
   font-family: var(--font-serif);
   font-size: 3rem;
   margin: 0;
-  color: #fff;                      /* pure white */
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.8);
 }
 
-/* Keep the date & button lower down */
-.hero-cta {
-  top: 50%;
-}
+/* Date/CTA lower */
+.hero-cta { top: 50%; }
 .hero-cta .date {
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #fff;                      /* lighten for legibility */
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.7);
 }
-/* Schedule two-row layout */
+
+/* ===================================================================
+   HOME – Ceremony / Reception schedule (with images)
+   =================================================================== */
 .schedule {
   max-width: 1000px;
   margin: 4rem auto;
@@ -251,19 +145,13 @@ a {
   flex-direction: column;
   gap: 4rem;
 }
-
 .schedule-row {
   display: flex;
   align-items: center;
   gap: 2rem;
 }
+.schedule-row.reverse { flex-direction: row-reverse; }
 
-/* Mirror the second row */
-.schedule-row.reverse {
-  flex-direction: row-reverse;
-}
-
-/* Images */
 .schedule-img img {
   width: 100%;
   height: auto;
@@ -271,57 +159,35 @@ a {
   object-fit: cover;
 }
 
-/* Text blocks */
-.schedule-text {
-  flex: 1;
-  text-align: left;
-}
-
+.schedule-text { flex: 1; text-align: left; }
 .schedule-text h2 {
   font-family: var(--font-serif);
   font-size: 2rem;
   margin-bottom: 0.5rem;
 }
+.schedule-text .time { font-size: 1.25rem; margin-bottom: 1rem; color: var(--color-text); }
+.schedule-text .location { line-height: 1.5; margin-bottom: 1.5rem; }
+.schedule-text a { color: var(--accent); font-weight: bold; text-decoration: none; }
 
-.schedule-text .time {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-  color: var(--color-text);
-}
-
-.schedule-text .location {
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-}
-
-.schedule-text a {
-  color: var(--accent);
-  font-weight: bold;
-  text-decoration: none;
-}
-
-/* Responsive: stack on mobile */
-@media (max-width: 768px) {
+/* Stack on mobile */
+@media (max-width: 768px){
   .schedule-row,
-  .schedule-row.reverse {
-    flex-direction: column;
-  }
+  .schedule-row.reverse { flex-direction: column; }
 }
-/* SEE HOW IT ALL STARTED */
+
+/* ===================================================================
+   “SEE HOW IT ALL STARTED” (image + centered button with lines)
+   =================================================================== */
 .see-how {
   background: var(--color-bg);
   padding: 4rem 2rem;
   text-align: center;
 }
-
-/* Heading */
 .see-how h2 {
   font-family: var(--font-serif);
   font-size: 2rem;
   margin-bottom: 1.5rem;
 }
-
-/* Container for your horizontal photo */
 .see-how-img {
   max-width: 800px;
   margin: 0 auto 2rem;
@@ -329,112 +195,67 @@ a {
   border-radius: 8px;
 }
 .see-how-img img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
+  width: 100%; height: auto; display: block; object-fit: cover;
 }
-
-/* Button row */
 .see-how-cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem; margin-top: 2rem;
 }
-
-/* Lines */
 .see-how-cta hr {
-  flex: 1;
-  height: 1px;
-  background-color: var(--color-text);
-  border: none;
-  margin: 0;
+  flex: 1; height: 1px; background: var(--color-text); border: 0; margin: 0;
 }
-
-/* Center button */
 .see-how-cta .btn.outline {
-  background: var(--accent);
-  color: #fff;
-  padding: 0.75rem 1.5rem;
-  text-decoration: none;
-  border-radius: 0;
-  border: none;
+  background: var(--accent); color: #fff;
+  padding: 0.75rem 1.5rem; border: none; border-radius: 0;
   font-family: var(--font-serif);
 }
-
-/* Responsive: stack on mobile */
-@media (max-width: 600px) {
-  .see-how-img {
-    max-width: 100%;
-  }
-  .see-how-cta {
-    flex-direction: column;
-  }
-  .see-how-cta hr {
-    width: 50%;
-  }
+@media (max-width: 600px){
+  .see-how-img { max-width: 100%; }
+  .see-how-cta { flex-direction: column; }
+  .see-how-cta hr { width: 50%; }
 }
-/* Elegant Travel & Stay call-out */
+
+/* ===================================================================
+   TRAVEL CALLOUT (genteel)
+   =================================================================== */
 .travel-callout {
   position: relative;
   max-width: 700px;
   margin: 3rem auto;
   padding: 2rem 1.5rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255,255,255,0.8);
   border-radius: 12px;
   text-align: center;
   font-family: var(--font-serif);
   font-size: 1.125rem;
   color: var(--color-text);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   backdrop-filter: blur(4px);
 }
-
-/* Decorative horizontal lines, using pseudo-elements */
 .travel-callout::before,
-.travel-callout::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 20%;
-  height: 1px;
-  background: var(--color-text);
+.travel-callout::after{
+  content: ''; position: absolute; top: 50%;
+  width: 20%; height: 1px; background: var(--color-text);
 }
-.travel-callout::before { left: 0; }
-.travel-callout::after  { right: 0; }
-
-/* Remove default p margins */
-.travel-callout p {
-  margin: 0;
-  display: inline-block;
-  background: transparent;
+.travel-callout::before{ left: 0; }
+.travel-callout::after { right: 0; }
+.travel-callout p { margin: 0; display: inline-block; }
+.travel-callout .link-btn{
+  color: #D4AF37; font-weight: bold; text-decoration: none;
+  border-bottom: 2px solid #D4AF37; padding-bottom: 2px; margin-left: .25rem;
+}
+@media (max-width: 480px){
+  .travel-callout::before, .travel-callout::after { width: 10%; }
 }
 
-/* The “here” link as a gold-tone accent */
-.travel-callout .link-btn {
-  color: #D4AF37;                  /* gold tone */
-  font-weight: bold;
-  text-decoration: none;
-  border-bottom: 2px solid #D4AF37;
-  padding-bottom: 2px;
-  margin-left: 0.25rem;
-}
-
-/* On small screens, shrink lines */
-@media (max-width: 480px) {
-  .travel-callout::before,
-  .travel-callout::after {
-    width: 10%;
-  }
-}
-
-/* ─── Footer Section ─── */
-.site-footer {
+/* ===================================================================
+   FOOTER
+   =================================================================== */
+.site-footer{
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch;  /* equal heights */
+  gap: 2rem;
   max-width: 1000px;
   margin: 4rem auto;
   padding: 2rem;
@@ -442,619 +263,215 @@ a {
   border-top: 1px solid rgba(0,0,0,0.1);
 }
 
-.footer-col {
-  flex: 1;
-}
+.footer-col{ flex: 1 1 0; display: flex; flex-direction: column; }
+.footer-left, .footer-right { max-width: 200px; }
+.footer-center{ flex: 2; }
 
-.footer-left,
-.footer-right {
-  max-width: 200px;
-}
-
-.footer-center {
-  flex: 2;
-}
-
-.footer-label {
+.footer-label{
   font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: var(--color-text);
+  font-size: 1rem; font-weight: bold; margin-bottom: .5rem; color: var(--color-text);
 }
+.footer-link, .footer-nav a{ font-family: var(--font-sans); color: var(--color-text); }
+.footer-link:hover, .footer-nav a:hover{ text-decoration: underline; }
 
-.footer-link,
-.footer-nav a {
-  font-family: var(--font-sans);
-  color: var(--color-text);
-  text-decoration: none;
-}
+.footer-nav ul{ list-style: none; padding: 0; margin: 0; }
+.footer-nav li{ margin-bottom: .5rem; }
 
-.footer-link:hover,
-.footer-nav a:hover {
-  text-decoration: underline;
-}
+.footer-right { text-align: right; }
+.footer-right .footer-signature{ margin-top: auto; opacity: .85; }
+.footer-signature a{ font-size: .9rem; color: #8a8a8a; text-decoration: none; }
+.footer-signature a:hover{ text-decoration: underline; color: #555; }
 
-/* Nav list */
-.footer-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-nav li {
-  margin-bottom: 0.5rem;
-}
-
-/* Responsive stacking */
-@media (max-width: 768px) {
-  .site-footer {
+@media (max-width: 768px){
+  .site-footer{
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 2rem;
   }
-  .footer-left,
-  .footer-center,
-  .footer-right {
-    max-width: none;
-    width: 100%;
-  }
-  .footer-center ul {
-    display: inline-block;
-    text-align: left;
-  }
+  .footer-left, .footer-center, .footer-right{ max-width: none; width: 100%; }
+  .footer-center ul{ display: inline-block; text-align: left; }
 }
-/* Page title under the nav */
-.story-main-title {
+
+/* ===================================================================
+   STORY PAGE
+   =================================================================== */
+.story-main-title{
   font-family: var(--font-serif);
   font-size: 2.5rem;
-  text-align: center;      /* ← center it horizontally */
-  margin: 4rem auto 2rem;  /* ← adds top spacing so it sits lower, auto‐centers left/right */
-  max-width: 800px;        /* optional—keeps it from stretching on super‐wide screens */
+  text-align: center;
+  margin: 4rem auto 2rem;
+  max-width: 800px;
 }
 
-
-/* Story events now stack vertically */
-.story-event {
+.story-event{
   display: flex;
-  flex-direction: column;    /* text above image */
+  flex-direction: column;     /* text/image vertical */
   gap: 2rem;
   max-width: 800px;
   margin: 0 auto 4rem;
 }
+.story-img img{
+  width: 100%; height: auto; display: block; object-fit: cover; border-radius: 8px;
+}
+.story-text{ color: var(--color-text); }
+.event-caption{ font-size: 1.125rem; line-height: 1.6; }
 
-/* Image styling */
-.story-img img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
-  display: block;
+.story-quotes{
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+  background: #fafafa; padding: 3rem 2rem; text-align: center;
+}
+.story-quotes .quote p{ font-style: italic; line-height: 1.6; }
+.story-quotes em{ display: block; margin-top: .5rem; font-style: normal; font-weight: bold; }
+
+/* ===================================================================
+   TRAVEL / REGISTRY / RSVP PAGES
+   =================================================================== */
+.travel-page, .registry-page { max-width: 800px; margin: auto; padding: 2rem; }
+.registry-page{ max-width: 600px; text-align: center; }
+
+.location-section{ margin-bottom: 4rem; }
+.location-section h1{ font-size: 2rem; margin-bottom: .5rem; }
+.location-section h2{ font-size: 1.5rem; margin-bottom: .25rem; font-style: italic; }
+.location-section p{ margin-bottom: 1rem; }
+
+.map{ margin: 1rem 0; border-radius: 8px; overflow: hidden; }
+
+.directions{ list-style: none; padding-left: 0; }
+.directions li{ margin-bottom: .5rem; }
+
+.registry-intro p{ margin-bottom: 2rem; }
+.registry-links ul{ list-style: none; padding: 0; }
+.registry-links li{ margin: 1rem 0; }
+.registry-links a{
+  display: inline-block; padding: .75rem 1.5rem;
+  border: 2px solid var(--accent); border-radius: 4px; font-weight: bold;
 }
 
-/* Text block */
-.story-text {
-  font-family: var(--font-sans);
-  color: var(--color-text);
+/* RSVP block (if used on index) */
+.rsvp-section{
+  background: #fff; padding: 3rem 2rem; max-width: 500px; margin: 4rem auto;
+  border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: left;
 }
+.rsvp-section h2{ text-align: center; margin-bottom: 1.5rem; }
+.rsvp-form label{ display: block; margin-bottom: 1rem; }
+.rsvp-form input, .rsvp-form select{
+  width: 100%; padding: .5rem; margin-top: .25rem; border: 1px solid #ccc; border-radius: 4px;
+}
+.rsvp-form .btn{ display: block; width: 100%; margin-top: 1.5rem; text-align: center; }
 
-/* Caption styling */
-.event-caption {
-  font-size: 1.125rem;
-  line-height: 1.6;
-}
-
-/* Quotes unchanged */
-.story-quotes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  background: #fafafa;
-  padding: 3rem 2rem;
-  text-align: center;
-}
-.story-quotes .quote p {
-  font-style: italic;
-  line-height: 1.6;
-}
-.story-quotes em {
-  display: block;
-  margin-top: 0.5rem;
-  font-style: normal;
-  font-weight: bold;
-}
-/* Book-your-stay card */
-.hotel-booking {
+/* ===================================================================
+   HOTEL BOOKING – base + gentle + softcard variants
+   =================================================================== */
+.hotel-booking{
   --gold: #D4AF37;
   --gold-dark: #b8952b;
-  max-width: 880px;
-  margin: 3rem auto 4rem;
-  padding: 2.25rem 2rem;
-  background: #fffef9;
-  border: 1px solid #f0e6c8;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+  max-width: 880px; margin: 3rem auto 4rem; padding: 2.25rem 2rem;
+  background: #fffef9; border: 1px solid #f0e6c8; border-radius: 16px;
+  text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.06);
 }
-
-/* small gold eyebrow */
-.hotel-booking .eyebrow {
-  display: inline-block;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  color: var(--gold-dark);
-  margin-bottom: 0.35rem;
-  position: relative;
+.hotel-booking .eyebrow{
+  display: inline-block; letter-spacing: .12em; text-transform: uppercase;
+  font-size: .75rem; color: var(--gold-dark); margin-bottom: .35rem; position: relative;
 }
 .hotel-booking .eyebrow::before,
-.hotel-booking .eyebrow::after {
-  content: "";
-  display: inline-block;
-  width: 28px;
-  height: 1px;
-  background: var(--gold-dark);
-  vertical-align: middle;
-  margin: 0 10px;
+.hotel-booking .eyebrow::after{
+  content: ""; display: inline-block; width: 28px; height: 1px; background: var(--gold-dark);
+  vertical-align: middle; margin: 0 10px;
 }
+.hotel-booking h2{ font-family: var(--font-serif); font-size: 2.2rem; margin: 0 0 .75rem; }
+.hotel-booking p{ margin: 0 auto 1.1rem; line-height: 1.7; max-width: 60ch; color: #333; }
+.hotel-booking a{ color: inherit; text-decoration: underline; }
 
-/* title */
-.hotel-booking h2 {
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
-  margin: 0 0 0.75rem;
-}
-
-/* copy */
-.hotel-booking p {
-  margin: 0 auto 1.1rem;
-  line-height: 1.7;
-  max-width: 60ch;
-  color: #333;
-}
-.hotel-booking a { color: inherit; text-decoration: underline; }
-
-/* code badge */
-.code-badge {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
-  background: #fff6d8;
-  border: 1px solid #ead08a;
+.code-badge{
+  display: inline-block; padding: .2rem .6rem; border-radius: 999px;
+  background: #fff6d8; border: 1px solid #ead08a;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-weight: 700;
-  color: #795a00;
+  font-weight: 700; color: #795a00;
 }
-
-/* actions row */
-.booking-actions {
-  display: flex;
-  justify-content: center;
-  gap: 0.8rem;
-  flex-wrap: wrap;
-  margin-top: 0.25rem;
+.booking-actions{
+  display: flex; justify-content: center; gap: .8rem; flex-wrap: wrap; margin-top: .25rem;
 }
-
-/* buttons */
-.hotel-booking .btn {
-  appearance: none;
-  cursor: pointer;
-  border-radius: 8px;
-  padding: 0.7rem 1.2rem;
-  font-weight: 600;
+.hotel-booking .btn{
+  appearance: none; cursor: pointer; border-radius: 8px; padding: .7rem 1.2rem; font-weight: 600;
   border: 1px solid transparent;
   transition: transform 120ms ease, background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
 }
-.hotel-booking .btn:focus { outline: none; box-shadow: 0 0 0 3px rgba(212,175,55,0.25); }
+.hotel-booking .btn:focus{ outline: none; box-shadow: 0 0 0 3px rgba(212,175,55,0.25); }
+.hotel-booking .btn-primary{ background: var(--gold); border-color: var(--gold-dark); color: #111; }
+.hotel-booking .btn-primary:hover{ background: #e0bd52; transform: translateY(-1px); }
+.hotel-booking .btn-ghost{ background: transparent; color: var(--gold-dark); border: 1px solid var(--gold-dark); }
+.hotel-booking .btn-ghost:hover{ background: rgba(212,175,55,0.08); }
+.hotel-booking .btn-ghost.copied{ background: #e8f6e8; color: #1b5e20; border-color: #1b5e20; }
+.hotel-booking .fineprint{ margin-top: .75rem; font-size: .95rem; color: #666; }
 
-/* primary (gold) */
-.hotel-booking .btn-primary {
-  background: var(--gold);
-  border-color: var(--gold-dark);
-  color: #111;
-}
-.hotel-booking .btn-primary:hover { background: #e0bd52; transform: translateY(-1px); }
-.hotel-booking .btn-primary:active { transform: translateY(0); }
-
-/* ghost (outlined) */
-.hotel-booking .btn-ghost {
-  background: transparent;
-  color: var(--gold-dark);
-  border: 1px solid var(--gold-dark);
-}
-.hotel-booking .btn-ghost:hover { background: rgba(212,175,55,0.08); }
-
-/* copied state */
-.hotel-booking .btn-ghost.copied {
-  background: #e8f6e8;
-  color: #1b5e20;
-  border-color: #1b5e20;
+@media (max-width: 520px){
+  .hotel-booking{ padding: 1.75rem 1.2rem; }
+  .hotel-booking h2{ font-size: 1.8rem; }
 }
 
-/* fine print */
-.hotel-booking .fineprint {
-  margin-top: 0.75rem;
-  font-size: 0.95rem;
-  color: #666;
+/* Gentle, non-salesy variant */
+.hotel-booking.gentle{
+  background: transparent; border: 0; box-shadow: none; padding: 0; text-align: center; max-width: 760px;
 }
+.hotel-booking.gentle h2{ font-size: 1.9rem; margin: 0 0 .75rem; }
+.hotel-booking.gentle p{ margin: 0 auto .75rem; max-width: 60ch; color: #333; }
+.hotel-booking .btn-link{
+  background: none; border: 0; padding: 0; color: var(--accent); font-weight: 600; text-decoration: underline; cursor: pointer;
+}
+.hotel-booking .btn-link.copied{ text-decoration: none; position: relative; }
+.hotel-booking .btn-link.copied::after{ content: " ✓"; color: #1b5e20; }
+.hotel-booking .muted{ color: #666; font-size: .95rem; margin-top: .25rem; }
 
-/* responsive tweaks */
-@media (max-width: 520px) {
-  .hotel-booking { padding: 1.75rem 1.2rem; }
-  .hotel-booking h2 { font-size: 1.8rem; }
-}
-/* ── Gentle, non-salesy variant (overrides the card) ───────────────────────── */
-.hotel-booking.gentle {
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  padding: 0;
-  text-align: center;
-  max-width: 760px; /* a touch narrower feels calmer */
-}
-
-.hotel-booking.gentle h2 {
-  font-family: var(--font-serif);
-  font-size: 1.9rem;
-  margin: 0 0 0.75rem;
-}
-
-.hotel-booking.gentle p {
-  margin: 0 auto 0.75rem;
-  line-height: 1.7;
-  max-width: 60ch;
-  color: #333;
-}
-
-/* Link-style actions instead of big buttons */
-.hotel-booking .booking-actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin: 0.5rem 0 0.25rem;
-}
-
-.hotel-booking .btn-link {
-  background: none;
-  border: 0;
-  padding: 0;
-  color: var(--accent, #111);
-  font-weight: 600;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-/* Copied visual hint */
-.hotel-booking .btn-link.copied { text-decoration: none; position: relative; }
-.hotel-booking .btn-link.copied::after { content: " ✓"; color: #1b5e20; }
-
-/* Subtle footnote */
-.hotel-booking .muted {
-  color: #666;
-  font-size: 0.95rem;
-  margin-top: 0.25rem;
-}
-/* ── Soft, non-salesy card variant ────────────────────────────────────────── */
-.hotel-booking.softcard {
-  /* gentler palette + rounded card */
-  background: #fffefb;
-  border: 1px solid #eee6cc;
-  border-radius: 16px;
+/* Soft “card” variant */
+.hotel-booking.softcard{
+  background: #fffefb; border: 1px solid #eee6cc; border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-  max-width: 860px;
-  margin: 3rem auto 4rem;
-  padding: 2rem 1.75rem;
-  text-align: center;
+  max-width: 860px; margin: 3rem auto 4rem; padding: 2rem 1.75rem; text-align: center;
 }
+.hotel-booking.softcard h2{ font-size: 2rem; margin: 0 0 .6rem; }
+.hotel-booking.softcard p{ margin: 0 auto 1rem; max-width: 62ch; line-height: 1.7; color: #333; }
+.hotel-booking .btn-primary.subtle{ background: #f3e7b5; border-color: #dcc57b; color: #111; }
+.hotel-booking .btn-primary.subtle:hover{ background: #eedc9a; transform: translateY(-1px); }
+.hotel-booking .btn-ghost{ color: #a9861f; border-color: #d9c890; }
 
-.hotel-booking.softcard h2 {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  margin: 0 0 0.6rem;
-}
-
-.hotel-booking.softcard p {
-  margin: 0 auto 1rem;
-  max-width: 62ch;
-  line-height: 1.7;
-  color: #333;
-}
-
-/* Buttons: keep them as buttons, but quieter */
-.hotel-booking .btn-primary.subtle {
-  background: #f3e7b5;        /* light gold */
-  border-color: #dcc57b;
-  color: #111;
-}
-.hotel-booking .btn-primary.subtle:hover {
-  background: #eedc9a;
-  transform: translateY(-1px);
-}
-
-/* outline stays but with lighter border */
-.hotel-booking .btn-ghost {
-  color: #a9861f;             /* softer gold tone */
-  border-color: #d9c890;
-}
-.hotel-booking .btn-ghost:hover {
-  background: rgba(212,175,55,0.08);
-}
-
-/* Keep your code pill as-is; it already looks friendly */
-/* footer signature */
-.footer-right { text-align: right; }
-.footer-signature a {
-  font-size: 0.9rem;
-  color: #8a8a8a;
-  text-decoration: none;
-}
-.footer-signature a:hover { text-decoration: underline; color: #555; }
-/* Make footer columns equal height and let items stack top→bottom */
-.site-footer {
-  display: flex;           /* if it's already flex, this won't hurt */
-  gap: 2rem;
-  align-items: stretch;    /* equal heights across columns */
-}
-
-/* Stack each column vertically */
-.footer-col {
-  flex: 1 1 0;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Push signature to the bottom of the right column */
-.footer-right { text-align: right; }
-.footer-right .footer-signature { 
-  margin-top: auto;        /* magic line → sends it to the bottom */
-  opacity: .85;
-}
+/* ===================================================================
+   CHESS CORNER
+   =================================================================== */
 .chess-corner { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
 .chess-title  { text-align: center; font-family: var(--font-serif); margin-bottom: 1rem; }
 
-.chess-grid {
+.chess-grid{
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem;
 }
-@media (max-width: 980px) { .chess-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 680px) { .chess-grid { grid-template-columns: 1fr; } }
+@media (max-width: 980px){ .chess-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 680px){ .chess-grid { grid-template-columns: 1fr; } }
 
-.card { background:#fff; border:1px solid #eee; border-radius:12px;
-        box-shadow:0 6px 14px rgba(0,0,0,.05); padding:1rem 1rem 1.2rem; }
-.card h3 { margin:0 0 .4rem; font-family: var(--font-serif); }
+.card{
+  background: #fff; border: 1px solid #eee; border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0,0,0,.05); padding: 1rem 1rem 1.2rem;
+}
+.card h3{ margin: 0 0 .4rem; font-family: var(--font-serif); }
 
-.inline { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
-.inline input[type="url"]{ flex:1 1 280px; padding:.6rem .75rem; border:1px solid #ddd; border-radius:8px; }
+.inline{ display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+.inline input[type="url"]{
+  flex: 1 1 280px; padding: .6rem .75rem; border: 1px solid #ddd; border-radius: 8px;
+}
 
-.btn { display:inline-block; border-radius:8px; padding:.6rem 1rem; background:#f3e7b5; border:1px solid #dcc57b; color:#111; text-decoration:none; font-weight:600; }
-.btn:hover { background:#eedc9a; }
-.btn.outline { background:transparent; border-color:#d9c890; color:#a9861f; }
-.btn.outline:hover { background:rgba(212,175,55,0.08); }
-
-.embed-wrap { position:relative; width:100%; aspect-ratio:1 / 1; }
-.embed-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:0; border-radius:10px; }
-
-.mini-rating { margin-top:.75rem; font-size:.95rem; }
-.mini-rating #ratingList { margin-top:.25rem; display:grid; grid-template-columns:repeat(3,auto); gap:.6rem 1rem; }
+.btn{
+  display: inline-block; border-radius: 8px; padding: .6rem 1rem;
+  background: #f3e7b5; border: 1px solid #dcc57b; color: #111; text-decoration: none; font-weight: 600;
+}
+.btn:hover{ background: #eedc9a; }
+.btn.outline{ background: transparent; border-color: #d9c890; color: #a9861f; }
+.btn.outline:hover{ background: rgba(212,175,55,0.08); }
 
 /* Board sizing */
-.board-wrap { width:100%; max-width:520px; margin:0 auto; }
-#ericBotBoard { width:100%; }
+.board-wrap{ width: 100%; max-width: 520px; margin: 0 auto; }
+#ericBotBoard{ width: 100%; }
 
-/* Lichess embed: give a bit more height to account for the header bar */
-.embed-wrap {
-  position: relative;
-  width: 100%;
-  /* height a bit taller than width (board + header).
-     1/1.12 is usually perfect; if you still see cropping, try 1/1.15 */
-  aspect-ratio: 1 / 1.12;
-}
-
-.embed-wrap iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-radius: 10px;
-}
-/* === Normalize navbar item height (desktop & mobile) === */
-.main-nav { --nav-height: 56px; }
-
-.main-nav ul {
-  display: flex;
-  align-items: center;          /* vertical centering */
-  gap: 2rem;                    /* space between items */
-  height: var(--nav-height);
-  margin: 0;
-  padding: 0 1rem;
-}
-
-.main-nav li { list-style: none; }
-
-.main-nav a {
-  display: flex;                /* makes vertical centering easy */
-  align-items: center;
-  height: var(--nav-height);
-  padding: 0 .75rem;            /* horizontal padding only */
-  box-sizing: border-box;       /* include borders in height */
-  line-height: 1;               /* avoid extra line-height */
-}
-
-/* Make the RSVP button visually distinct but the SAME height */
-.main-nav .btn {
-  height: var(--nav-height);
-  padding: 0 1.1rem;            /* only horizontal padding */
-  font-weight: 700;
-  font-size: 1rem;              /* match menu font size */
-  border-radius: 10px;
-  box-sizing: border-box;
-}
-
-/* Optional: slightly tighter nav on small screens */
-@media (max-width: 640px) {
-  .main-nav { --nav-height: 48px; }
-  .main-nav ul { gap: 1.25rem; }
-  .main-nav .btn { font-weight: 600; }
-}
-/* =======================
-   Nav separators + polish
-   ======================= */
-
-/* Variables */
-.main-nav{
-  --nav-height: 56px;                  /* you already set this earlier */
-  --sep-color: rgba(0,0,0,.18);
-  --sep-tilt: 18deg;                   /* angle of the diagonal slash */
-  --sep-height: 18px;                  /* length of the slash */
-  --gap: 2.25rem;                      /* visual gap between items */
-}
-
-/* layout (keeps everything same height) */
-.main-nav ul{
-  display:flex; align-items:center;
-  gap: var(--gap);
-  height: var(--nav-height);
-  margin:0; padding:0 1rem;
-}
-.main-nav li{ list-style:none; position:relative; }
-.main-nav a{
-  display:flex; align-items:center;
-  height: var(--nav-height);
-  padding: 0 .75rem;
-  line-height:1;
-  box-sizing:border-box;
-}
-
-/* RSVP pill remains a pill but same height */
-.main-nav .btn{
-  height: var(--nav-height);
-  padding: 0 1.1rem;
-  font-weight:700; font-size:1rem;
-  border-radius:10px;
-  box-sizing:border-box;
-}
-
-/* ---------- Option A: Diagonal slash separators ---------- */
-/* Show a slash before every item except the first & the RSVP pill */
-.main-nav li + li::before{
-  content:"";
-  position:absolute;
-  left: calc(-.5 * var(--gap));        /* centers between items */
-  top:50%;
-  width:1px; height: var(--sep-height);
-  background: var(--sep-color);
-  transform: translateY(-50%) rotate(var(--sep-tilt));
-  border-radius:1px;
-}
-.main-nav li:last-child::before{ display:none; } /* no slash before RSVP */
-
-/* ---------- Option B: Dots (comment A out & uncomment this to switch) */
-/*
-.main-nav li + li::before{
-  content:"";
-  position:absolute;
-  left: calc(-.5 * var(--gap));
-  top:50%;
-  width:6px; height:6px;
-  background: var(--sep-color);
-  border-radius:50%;
-  transform: translateY(-50%);
-}
-.main-nav li:last-child::before{ display:none; }
-*/
-
-/* Underline sweep on hover for text links (not the RSVP button) */
-.main-nav a:not(.btn){
-  background-image: linear-gradient(currentColor,currentColor);
-  background-size: 0% 2px;
-  background-repeat:no-repeat;
-  background-position: left 90%;
-  transition: background-size .18s ease;
-}
-.main-nav a:not(.btn):hover{
-  background-size: 100% 2px;
-}
-
-/* Make separators calmer on mobile (and tighten spacing) */
-@media (max-width: 640px){
-  .main-nav{ --nav-height: 48px; --gap: 1.25rem; }
-  .main-nav li::before{ display:none; } /* separators off on small screens */
-}
-/* Keep menu items on one line and normalize RSVP button height */
-.main-nav ul{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:2rem;                 /* desktop gap */
-  flex-wrap:nowrap;         /* no wrapping */
-}
-.main-nav li{ flex:0 0 auto; }
-.main-nav a{ white-space:nowrap; }   /* e.g., "Travel & Stay" stays on one line */
-
-/* Make RSVP pill height consistent with links */
-.main-nav .btn{
-  display:inline-flex;
-  align-items:center;
-  line-height:1;            /* same text height as links */
-  padding:.55rem .95rem;    /* sane default */
-  border-radius:12px;
-  font-weight:700;
-}
-
-/* Tablet down: tighter gaps and slightly smaller type */
-@media (max-width: 900px){
-  .main-nav ul{ gap:1.2rem; padding-inline:8px; }
-  .main-nav a{ font-size:clamp(15px,1.9vw,18px); }
-  .main-nav .btn{ font-size:clamp(14px,1.8vw,17px); padding:.45rem .8rem; }
-}
-
-/* Small phones */
-@media (max-width: 520px){
-  .main-nav ul{ gap:.65rem; }
-  .main-nav a{ font-size:14px; }
-  .main-nav .btn{ font-size:14px; padding:.35rem .6rem; border-radius:10px; }
-}
-
-/* Very narrow devices */
-@media (max-width: 380px){
-  .main-nav a{ font-size:13px; }
-  .main-nav .btn{ font-size:13px; padding:.3rem .5rem; }
-}
-/* --- Mobile nav tidy-up (append at end) ----------------------------- */
-
-/* prevent line breaks like "Travel & Stay" -> 2 lines */
-.main-nav a,
-.main-nav .btn { white-space: nowrap; }
-
-/* base: make sure items are centered and aligned */
-.main-nav ul {
-  display: flex;
-  align-items: center;         /* vertically align text & button */
-  justify-content: center;
-  gap: clamp(0.6rem, 4vw, 2.2rem);   /* shrink gap on small screens */
-  padding-block: clamp(.45rem, 1.8vw, .9rem);
-}
-
-/* RSVP button: same visual height as text links */
-.main-nav .btn {
-  padding: .38rem .75rem;      /* tighter padding on mobile */
-  font-size: .95rem;
-  line-height: 1;              /* keep height tight */
-  border-radius: .75rem;
-}
-
-/* links: keep size reasonable on phones */
-.main-nav a {
-  font-size: clamp(.95rem, 2.8vw, 1.05rem);
-  line-height: 1;              /* match button line-height */
-  padding: .25rem 0;           /* remove tall link padding */
-}
-
-/* if a really narrow phone still struggles, gently compress the gap more */
-@media (max-width: 400px) {
-  .main-nav ul { gap: .6rem; }
-  .main-nav .btn { padding: .32rem .6rem; font-size: .9rem; }
-  .main-nav a { font-size: .92rem; }
+/* Lichess embed (single definition, taller to avoid cropping) */
+.embed-wrap{ position: relative; width: 100%; aspect-ratio: 1 / 1.12; }
+.embed-wrap iframe{
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; border-radius: 10px;
 }
