@@ -898,3 +898,87 @@ a {
   .main-nav ul { gap: 1.25rem; }
   .main-nav .btn { font-weight: 600; }
 }
+/* =======================
+   Nav separators + polish
+   ======================= */
+
+/* Variables */
+.main-nav{
+  --nav-height: 56px;                  /* you already set this earlier */
+  --sep-color: rgba(0,0,0,.18);
+  --sep-tilt: 18deg;                   /* angle of the diagonal slash */
+  --sep-height: 18px;                  /* length of the slash */
+  --gap: 2.25rem;                      /* visual gap between items */
+}
+
+/* layout (keeps everything same height) */
+.main-nav ul{
+  display:flex; align-items:center;
+  gap: var(--gap);
+  height: var(--nav-height);
+  margin:0; padding:0 1rem;
+}
+.main-nav li{ list-style:none; position:relative; }
+.main-nav a{
+  display:flex; align-items:center;
+  height: var(--nav-height);
+  padding: 0 .75rem;
+  line-height:1;
+  box-sizing:border-box;
+}
+
+/* RSVP pill remains a pill but same height */
+.main-nav .btn{
+  height: var(--nav-height);
+  padding: 0 1.1rem;
+  font-weight:700; font-size:1rem;
+  border-radius:10px;
+  box-sizing:border-box;
+}
+
+/* ---------- Option A: Diagonal slash separators ---------- */
+/* Show a slash before every item except the first & the RSVP pill */
+.main-nav li + li::before{
+  content:"";
+  position:absolute;
+  left: calc(-.5 * var(--gap));        /* centers between items */
+  top:50%;
+  width:1px; height: var(--sep-height);
+  background: var(--sep-color);
+  transform: translateY(-50%) rotate(var(--sep-tilt));
+  border-radius:1px;
+}
+.main-nav li:last-child::before{ display:none; } /* no slash before RSVP */
+
+/* ---------- Option B: Dots (comment A out & uncomment this to switch) */
+/*
+.main-nav li + li::before{
+  content:"";
+  position:absolute;
+  left: calc(-.5 * var(--gap));
+  top:50%;
+  width:6px; height:6px;
+  background: var(--sep-color);
+  border-radius:50%;
+  transform: translateY(-50%);
+}
+.main-nav li:last-child::before{ display:none; }
+*/
+
+/* Underline sweep on hover for text links (not the RSVP button) */
+.main-nav a:not(.btn){
+  background-image: linear-gradient(currentColor,currentColor);
+  background-size: 0% 2px;
+  background-repeat:no-repeat;
+  background-position: left 90%;
+  transition: background-size .18s ease;
+}
+.main-nav a:not(.btn):hover{
+  background-size: 100% 2px;
+}
+
+/* Make separators calmer on mobile (and tighten spacing) */
+@media (max-width: 640px){
+  .main-nav{ --nav-height: 48px; --gap: 1.25rem; }
+  .main-nav li::before{ display:none; } /* separators off on small screens */
+}
