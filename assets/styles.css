@@ -859,3 +859,42 @@ a {
   border: 0;
   border-radius: 10px;
 }
+/* === Normalize navbar item height (desktop & mobile) === */
+.main-nav { --nav-height: 56px; }
+
+.main-nav ul {
+  display: flex;
+  align-items: center;          /* vertical centering */
+  gap: 2rem;                    /* space between items */
+  height: var(--nav-height);
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.main-nav li { list-style: none; }
+
+.main-nav a {
+  display: flex;                /* makes vertical centering easy */
+  align-items: center;
+  height: var(--nav-height);
+  padding: 0 .75rem;            /* horizontal padding only */
+  box-sizing: border-box;       /* include borders in height */
+  line-height: 1;               /* avoid extra line-height */
+}
+
+/* Make the RSVP button visually distinct but the SAME height */
+.main-nav .btn {
+  height: var(--nav-height);
+  padding: 0 1.1rem;            /* only horizontal padding */
+  font-weight: 700;
+  font-size: 1rem;              /* match menu font size */
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* Optional: slightly tighter nav on small screens */
+@media (max-width: 640px) {
+  .main-nav { --nav-height: 48px; }
+  .main-nav ul { gap: 1.25rem; }
+  .main-nav .btn { font-weight: 600; }
+}
