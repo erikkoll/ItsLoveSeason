@@ -469,19 +469,21 @@ a { color: var(--accent); text-decoration: none; }
 .board-wrap{ width: 100%; max-width: 520px; margin: 0 auto; }
 #ericBotBoard{ width: 100%; }
 
-/* Put this with your local styles on Eric's Cave (or in styles.css) */
+/* Replace your current .embed-wrap rules with: */
 .embed-wrap{
   position: relative;
   width: 100%;
-  max-width: 460px;          /* keeps it elegant on desktop */
-  margin-inline: auto;       /* center the iframe in its card */
-  aspect-ratio: 1 / 1;       /* square: no right-side letterbox */
+  /* Wider than tall avoids right-side letterbox; tweak 1.26–1.30 if needed */
+  aspect-ratio: 1.28 / 1;
+  max-width: 520px;             /* keeps it elegant in the card */
+  margin-inline: auto;
 }
 .embed-wrap iframe{
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   border: 0; border-radius: 10px;
 }
+
 
 /* Travel callout: keep side lines behind the text and a bit shorter */
 .travel-callout { position: relative; }
