@@ -5,74 +5,64 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Eric's Cave</title>
   <link rel="stylesheet" href="assets/styles.css">
+
   <style>
     /* ===== Gate (modal) ===== */
-    .gate-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.35);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      display: grid; place-items: center; z-index: 1000;
+    .gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:grid;place-items:center;z-index:1000}
+    .gate-card{background:#fff;border-radius:14px;max-width:560px;width:calc(100% - 2rem);padding:1.75rem;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center}
+    .gate-card h2{margin:0 0 .5rem;font-family:var(--font-serif)}
+    .gate-card p{margin:.25rem 0 1rem;line-height:1.6}
+    .gate-form{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+    .gate-form input[type="text"]{padding:.6rem .75rem;border:1px solid #ddd;border-radius:8px;min-width:200px;font-size:1rem}
+    .gate-form button{padding:.6rem 1rem;border-radius:8px;border:1px solid #b8952b;background:#D4AF37;color:#111;font-weight:600;cursor:pointer}
+    .gate-hint{min-height:1.25rem;color:#555;font-size:.95rem;margin-top:.4rem}
+    .no-scroll{overflow:hidden}
+
+    /* Blur until unlocked */
+    #secret-content{transition:filter 220ms ease}
+    #secret-content.blurred{filter:blur(10px);pointer-events:none;user-select:none}
+    @media (prefers-reduced-motion:reduce){#secret-content{transition:none}}
+
+    /* ===== Chess corner styles ===== */
+    .chess-corner{max-width:1100px;margin:2rem auto;padding:0 1rem}
+    .chess-title{text-align:center;font-family:var(--font-serif);margin-bottom:1rem}
+    .chess-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+    @media (max-width:980px){.chess-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:680px){.chess-grid{grid-template-columns:1fr}}
+
+    .card{background:#fff;border:1px solid #eee;border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.05);padding:1rem 1rem 1.2rem}
+    .card h3{margin:0 0 .4rem;font-family:var(--font-serif)}
+    .inline{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+
+    .btn{display:inline-block;border-radius:8px;padding:.6rem 1rem;background:#f3e7b5;border:1px solid #dcc57b;color:#111;text-decoration:none;font-weight:600}
+    .btn:hover{background:#eedc9a}
+    .btn.outline{background:transparent;border-color:#d9c890;color:#a9861f}
+    .btn.outline:hover{background:rgba(212,175,55,0.08)}
+
+    .mini-rating{margin-top:.75rem;font-size:.95rem}
+    .mini-rating #ratingList{margin-top:.25rem;display:grid;grid-template-columns:repeat(3,auto);gap:.6rem 1rem}
+
+    /* Lichess embed: cap width so it centers & remove letterboxing */
+    .embed-wrap{
+      position:relative;
+      width:100%;
+      max-width:420px;         /* << keep the viewer nicely centered */
+      margin-inline:auto;
+      aspect-ratio:1 / 1.22;   /* a tad taller to include header/moves */
     }
-    .gate-card {
-      background: #fff; border-radius: 14px; max-width: 560px;
-      width: calc(100% - 2rem); padding: 1.75rem;
-      box-shadow: 0 20px 60px rgba(0,0,0,.2);
-      text-align: center;
+    .embed-wrap iframe{
+      position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:10px
     }
-    .gate-card h2 { margin: 0 0 .5rem; font-family: var(--font-serif); }
-    .gate-card p  { margin: .25rem 0 1rem; line-height: 1.6; }
-    .gate-form { display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap; }
-    .gate-form input[type="text"]{ padding:.6rem .75rem; border:1px solid #ddd; border-radius:8px; min-width:200px; font-size:1rem; }
-    .gate-form button{ padding:.6rem 1rem; border-radius:8px; border:1px solid #b8952b; background:#D4AF37; color:#111; font-weight:600; cursor:pointer; }
-    .gate-hint{ min-height:1.25rem; color:#555; font-size:.95rem; margin-top:.4rem; }
-    .no-scroll{ overflow:hidden; }
 
-    /* Blur the page content until unlocked */
-    #secret-content { transition: filter 220ms ease; }
-    #secret-content.blurred { filter: blur(10px); pointer-events:none; user-select:none; }
-    @media (prefers-reduced-motion: reduce){ #secret-content { transition:none; } }
-
-    /* ===== Chess corner styles (local) ===== */
-    .chess-corner { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
-    .chess-title  { text-align: center; font-family: var(--font-serif); margin-bottom: 1rem; }
-
-    .chess-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem;
-    }
-    @media (max-width: 980px) { .chess-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 680px) { .chess-grid { grid-template-columns: 1fr; } }
-
-    .card { background:#fff; border:1px solid #eee; border-radius:12px;
-            box-shadow:0 6px 14px rgba(0,0,0,.05); padding:1rem 1rem 1.2rem; }
-    .card h3 { margin:0 0 .4rem; font-family: var(--font-serif); }
-
-    .inline { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
-
-    .btn { display:inline-block; border-radius:8px; padding:.6rem 1rem;
-           background:#f3e7b5; border:1px solid #dcc57b; color:#111; text-decoration:none; font-weight:600; }
-    .btn:hover { background:#eedc9a; }
-    .btn.outline { background:transparent; border-color:#d9c890; color:#a9861f; }
-    .btn.outline:hover { background:rgba(212,175,55,0.08); }
-
-    .mini-rating { margin-top:.75rem; font-size:.95rem; }
-    .mini-rating #ratingList { margin-top:.25rem; display:grid; grid-template-columns:repeat(3,auto); gap:.6rem 1rem; }
-
-    /* Lichess embed: tuned height so no side letterboxing */
-    .embed-wrap { position:relative; width:100%; aspect-ratio: 1 / 1.06; }
-    .embed-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:0; border-radius:10px; }
-    @media (min-width: 1100px) { .embed-wrap { max-width: 480px; margin-inline:auto; } }
-
-    /* Board sizing */
-    .board-wrap { width:100%; max-width:520px; margin:0 auto; }
-    #ericBotBoard { width:100%; }
+    /* Bot board sizing */
+    .board-wrap{width:100%;max-width:420px;margin:0 auto}
+    #ericBotBoard{width:100%}
   </style>
 </head>
 <body>
-  <!-- Page content (initially blurred) -->
   <main id="secret-content" class="blurred">
-    <section style="max-width: 820px; margin: 2rem auto 0; padding: 0 1rem;">
-      <h1 class="story-main-title" style="margin-top:1rem; text-align:center;">Eric's Cave</h1>
+    <section style="max-width:820px;margin:2rem auto 0;padding:0 1rem;">
+      <h1 class="story-main-title" style="margin-top:1rem;text-align:center;">Eric's Cave</h1>
     </section>
 
     <section class="chess-corner">
@@ -83,11 +73,7 @@
         <article class="card">
           <h3>Challenge Eric</h3>
           <p>Up for a game? Challenge me on Lichess.</p>
-          <a class="btn" id="challengeLink"
-            href="https://lichess.org/@/erikkoll"
-            target="_blank" rel="noopener">
-            Open my Lichess profile ↗
-          </a>
+          <a class="btn" href="https://lichess.org/@/erikkoll" target="_blank" rel="noopener">Open my Lichess profile ↗</a>
 
           <div class="mini-rating" id="ratingBox" hidden>
             <strong>Current ratings</strong>
@@ -99,10 +85,8 @@
         <article class="card">
           <h3>Watch my best win</h3>
           <p>Replay the game I’m most proud of.</p>
-
           <div class="embed-wrap" id="gameEmbedWrap">
-            <iframe id="gameEmbed" title="Lichess game replay"
-              loading="lazy" allowfullscreen></iframe>
+            <iframe id="gameEmbed" title="Lichess game replay" loading="lazy" allowfullscreen></iframe>
           </div>
         </article>
 
@@ -111,9 +95,7 @@
           <h3>Play “Eric-level” bot</h3>
           <p>Stockfish with limited strength (≈1614 Elo). Choose a side and play!</p>
 
-          <div class="board-wrap">
-            <div id="ericBotBoard"></div>
-          </div>
+          <div class="board-wrap"><div id="ericBotBoard"></div></div>
 
           <div class="inline" style="margin-top:.6rem">
             <label><input type="radio" name="color" value="white"> You play White</label>
@@ -121,7 +103,7 @@
             <button class="btn outline" id="newGameBtn" type="button">New game</button>
           </div>
 
-          <p id="engineStatus" style="margin-top:.5rem; color:#666; font-size:.95rem;"></p>
+          <p id="engineStatus" style="margin-top:.5rem;color:#666;font-size:.95rem;"></p>
         </article>
       </div>
     </section>
@@ -143,198 +125,194 @@
   <!-- Footer include -->
   <div id="site-footer"></div>
   <script>
-    fetch('footer.html').then(r=>r.text()).then(html=>{
-      document.getElementById('site-footer').outerHTML = html;
-    });
+    fetch('footer.html').then(r=>r.text()).then(h=>{document.getElementById('site-footer').outerHTML = h;});
   </script>
 
   <!-- Gate logic -->
   <script>
     (function(){
-      const gate = document.getElementById('gate');
-      const form = document.getElementById('gateForm');
-      const input = document.getElementById('answer');
-      const hint = document.getElementById('gateHint');
-      const content = document.getElementById('secret-content');
-      let tries = 0;
+      const gate=document.getElementById('gate');
+      const form=document.getElementById('gateForm');
+      const input=document.getElementById('answer');
+      const hint=document.getElementById('gateHint');
+      const content=document.getElementById('secret-content');
+      let tries=0;
 
-      function openContent(){
-        gate.style.display = 'none';
-        content.classList.remove('blurred');
-        document.body.classList.remove('no-scroll');
-        try { localStorage.setItem('deep_thought_ok','1'); } catch(e){}
-      }
+      function openContent(){ gate.style.display='none'; content.classList.remove('blurred'); document.body.classList.remove('no-scroll'); try{localStorage.setItem('deep_thought_ok','1')}catch(e){} }
+      function normalise(s){ return (s||'').trim().toLowerCase().replace(/[.,!?]/g,'').replace(/[-\s]+/g,' '); }
 
-      function normalise(str){
-        return (str||'').trim().toLowerCase().replace(/[.,!?]/g,'').replace(/[-\s]+/g,' ');
-      }
-
-      try { if(localStorage.getItem('deep_thought_ok') === '1'){ openContent(); return; } } catch(e){}
+      try{ if(localStorage.getItem('deep_thought_ok')==='1'){ openContent(); return; } }catch(e){}
       document.body.classList.add('no-scroll');
 
-      form.addEventListener('submit', function(e){
+      form.addEventListener('submit',e=>{
         e.preventDefault();
-        const a = normalise(input.value);
-        if (a === '42' || a === 'forty two' || a === 'forty-two' || a === 'fortytwo') { openContent(); return; }
-        tries++;
-        hint.textContent = (tries===1) ? 'Close… ask Deep Thought.' : (tries===2) ? 'It’s a two-digit number.' : 'Promise: the answer is shorter than the question.';
-        input.select();
+        const a=normalise(input.value);
+        if(a==='42'||a==='forty two'||a==='forty-two'||a==='fortytwo'){ openContent(); return; }
+        tries++; hint.textContent = tries===1?'Close… ask Deep Thought.':tries===2?'It’s a two-digit number.':'Promise: the answer is shorter than the question.'; input.select();
       });
     })();
   </script>
 
-  <noscript>
-    <p style="max-width:820px;margin:2rem auto;color:#a00;">
-      This page needs JavaScript for the gate. Enable JS to continue.
-    </p>
-  </noscript>
+  <noscript><p style="max-width:820px;margin:2rem auto;color:#a00;">This page needs JavaScript for the gate. Enable JS to continue.</p></noscript>
 
-  <!-- ===== Libraries for chess board & engine ===== -->
+  <!-- ===== Libraries (with reliable CDNs + fallback) ===== -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
+
+  <!-- chess.js (global window.Chess) -->
+  <script src="https://cdn.jsdelivr.net/npm/chess.js@0.13.4/chess.min.js"></script>
+
+  <!-- chessboard.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
-  <!-- Robust Stockfish build; exposes either STOCKFISH() or Stockfish() -->
-  <script src="https://cdn.jsdelivr.net/gh/niklasf/stockfish.js/stockfish.js"></script>
+
+  <!-- Stockfish (primary) -->
+  <script src="https://cdn.jsdelivr.net/npm/stockfish@16.1.0/stockfish.js"></script>
+  <!-- Fallback Stockfish (if CDN blocked) -->
+  <script>
+    if(!window.STOCKFISH && !window.Stockfish){
+      var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/gh/niklasf/stockfish.js/stockfish.js'; document.body.appendChild(s);
+    }
+  </script>
 
   <!-- ===== Chess corner logic ===== -->
   <script>
     (function () {
-      /* --- Best win embed --- */
+      /* --- Best win embed (centered and sized) --- */
       const BEST_ID = 'JGHVTwkz';
       const frame = document.getElementById('gameEmbed');
-      const wrap  = document.getElementById('gameEmbedWrap');
       frame.src = `https://lichess.org/embed/game/${BEST_ID}?theme=auto&bg=auto`;
-      wrap.hidden = false;
 
       /* --- Ratings (best-effort) --- */
-      const ratingBox  = document.getElementById('ratingBox');
-      const ratingList = document.getElementById('ratingList');
       fetch('https://lichess.org/api/user/erikkoll')
         .then(r => r.ok ? r.json() : null)
         .then(data => {
-          if (!data) return;
+          if(!data) return;
           const p = data.perfs || {};
-          const items = [
-            ['Bullet', p.bullet?.rating],
-            ['Blitz',  p.blitz?.rating],
-            ['Rapid',  p.rapid?.rating],
-          ].filter(([,r]) => typeof r === 'number');
-          if (items.length) {
-            ratingBox.hidden = false;
-            ratingList.innerHTML = items.map(([k,v]) => `<span><strong>${k}:</strong> ${v}</span>`).join('');
+          const items = [['Bullet',p.bullet?.rating],['Blitz',p.blitz?.rating],['Rapid',p.rapid?.rating]]
+            .filter(([,r])=>typeof r==='number');
+          if(items.length){
+            const box = document.getElementById('ratingBox');
+            const list= document.getElementById('ratingList');
+            box.hidden=false;
+            list.innerHTML = items.map(([k,v])=>`<span><strong>${k}:</strong> ${v}</span>`).join('');
           }
         }).catch(()=>{});
 
       /* --- Eric-level bot --- */
-      const ELO_TARGET = 1614;
       const statusEl   = document.getElementById('engineStatus');
       const newBtn     = document.getElementById('newGameBtn');
       const colorRadios= Array.from(document.querySelectorAll('input[name="color"]'));
+      const ELO_TARGET = 1614;
 
-      // Use whichever global the engine exposes
-      const engineFactory = window.STOCKFISH || window.Stockfish;
+      // Defensive checks for libs
+      if(typeof Chessboard === 'undefined' || typeof Chess === 'undefined'){
+        statusEl.textContent = 'Could not load chess libraries.';
+        return;
+      }
 
-      let playerColor = (document.querySelector('input[name="color"]:checked')?.value) || 'white';
       const game = new Chess();
-      let board, engine, engineReady = false;
+      let board, engine, engineReady=false;
+      let playerColor = (document.querySelector('input[name="color"]:checked')?.value) || 'white';
 
-      function initBoard() {
+      function initBoard(){
         board = Chessboard('ericBotBoard', {
-          draggable: true,
-          position: 'start',
-          orientation: playerColor,
-          onDragStart: (source, piece) => {
-            if (game.game_over()) return false;
-            if (playerColor === 'white' && piece.startsWith('b')) return false;
-            if (playerColor === 'black' && piece.startsWith('w')) return false;
+          draggable:true,
+          position:'start',
+          orientation:playerColor,
+          onDragStart:(src,piece)=>{
+            if(game.game_over()) return false;
+            if(playerColor==='white' && piece.startsWith('b')) return false;
+            if(playerColor==='black' && piece.startsWith('w')) return false;
           },
-          onDrop: (source, target) => {
-            const move = game.move({ from: source, to: target, promotion: 'q' });
-            if (!move) return 'snapback';
+          onDrop:(src,tgt)=>{
+            const mv = game.move({from:src,to:tgt,promotion:'q'});
+            if(!mv) return 'snapback';
           },
-          onSnapEnd: () => {
+          onSnapEnd:()=>{
             board.position(game.fen());
             maybeEngineMove();
           }
         });
-        // Ensure the board sizes itself
-        setTimeout(() => board.resize(), 0);
-        window.addEventListener('resize', () => board && board.resize());
+        // Ensure proper sizing
+        setTimeout(()=>board.resize(), 0);
+        window.addEventListener('resize', ()=>board && board.resize());
       }
 
-      function initEngine() {
-        if (!engineFactory) {
-          statusEl.textContent = 'Could not load Stockfish (network blocked?).';
-          return;
-        }
-        statusEl.textContent = 'Loading engine…';
-        engine = engineFactory();
-        engine.onmessage = (event) => {
-          const line = (typeof event === 'string') ? event : event.data;
-          if (!line) return;
+      function createEngine(){
+        const factory = window.STOCKFISH || window.Stockfish;
+        if(!factory) return null;
+        try { return factory(); } catch { return null; }
+      }
 
-          if (line === 'uciok') {
-            engine.postMessage('isready');
-            return;
-          }
-          if (line === 'readyok') {
+      function initEngine(){
+        engine = createEngine();
+        if(!engine){ statusEl.textContent='Could not load Stockfish (network blocked?).'; return; }
+
+        statusEl.textContent = 'Loading engine…';
+
+        engine.onmessage = (e)=>{
+          const line = (typeof e === 'string') ? e : e.data;
+          if(!line) return;
+
+          if(line === 'uciok'){ engine.postMessage('isready'); return; }
+          if(line === 'readyok'){
             engineReady = true;
             statusEl.textContent = 'Engine ready';
             engine.postMessage('setoption name UCI_LimitStrength value true');
             engine.postMessage(`setoption name UCI_Elo value ${ELO_TARGET}`);
-            engine.postMessage('setoption name Skill Level value 8'); // fallback
+            engine.postMessage('setoption name Skill Level value 8'); // fallback for older builds
             maybeEngineMove();
             return;
           }
-          if (line.startsWith('bestmove')) {
+          if(line.startsWith('bestmove')){
             const best = line.split(/\s+/)[1];
-            if (best && best !== '(none)') {
-              const from  = best.slice(0,2);
-              const to    = best.slice(2,4);
-              const promo = best.slice(4) || 'q';
-              game.move({ from, to, promotion: promo });
+            if(best && best !== '(none)'){
+              const from=best.slice(0,2), to=best.slice(2,4), promo=best.slice(4)||'q';
+              game.move({from,to,promotion:promo});
               board.position(game.fen());
-              statusEl.textContent = '';
+              statusEl.textContent='';
               maybeEngineMove();
             }
           }
         };
+
         engine.postMessage('uci');
       }
 
-      function engineGo() {
-        if (!engineReady) return;
+      function engineGo(){
+        if(!engineReady) return;
         engine.postMessage(`position fen ${game.fen()}`);
-        engine.postMessage('go movetime 1200'); // tweak to adjust strength
+        engine.postMessage('go movetime 1200');  // make engine think ~1.2s per move
         statusEl.textContent = 'Thinking…';
       }
 
-      function maybeEngineMove() {
+      function maybeEngineMove(){
         const engineColor = (playerColor === 'white') ? 'b' : 'w';
-        if (!game.game_over() && game.turn() === engineColor) engineGo();
+        if(!game.game_over() && game.turn() === engineColor) engineGo();
       }
 
-      function resetGame() {
+      function resetGame(){
         game.reset();
         board.orientation(playerColor);
         board.start();
-        if (engine) engine.postMessage('ucinewgame');
-        // Resize just in case the card width changed
+        if(engine) engine.postMessage('ucinewgame');
         board.resize();
         maybeEngineMove();
       }
 
-      colorRadios.forEach(r => r.addEventListener('change', () => {
+      // Wire up controls
+      colorRadios.forEach(r => r.addEventListener('change', ()=>{
         playerColor = document.querySelector('input[name="color"]:checked').value;
         resetGame();
       }));
       newBtn.addEventListener('click', resetGame);
 
+      // Init
       initBoard();
       initEngine();
-      if (playerColor === 'black') maybeEngineMove();
+      if(playerColor==='black') maybeEngineMove();
     })();
   </script>
 </body>
 </html>
+
