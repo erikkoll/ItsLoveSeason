@@ -115,15 +115,21 @@
 <script id="lib-chess" src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js" referrerpolicy="no-referrer"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
 <script id="lib-chessboard" src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js" referrerpolicy="no-referrer"></script>
+
+<!-- If either CDN is blocked, load a second source as a fallback -->
 <script>
   (function () {
     function add(src){ var s=document.createElement('script'); s.src=src; document.head.appendChild(s); }
-    if (typeof window.Chess === 'undefined') { add('https://cdn.jsdelivr.net/gh/jhlywa/chess.js@0.13.4/chess.min.js'); }
-    if (typeof window.Chessboard === 'undefined') { add('https://cdn.jsdelivr.net/npm/chessboard-js@1.0.0/dist/chessboard-1.0.0.min.js'); }
+    // fallback for chess.js - CORRECTED
+    if (typeof window.Chess === 'undefined') {
+      add('https://unpkg.com/chess.js@0.13.4/dist/chess.min.js');
+    }
+    // fallback for chessboard.js
+    if (typeof window.Chessboard === 'undefined') {
+      add('https://cdn.jsdelivr.net/npm/chessboard-js@1.0.0/dist/chessboard-1.0.0.min.js');
+    }
   })();
 </script>
-
-<!-- NOTE: We are no longer loading stockfish.js here -->
 
   <!-- ===== Chess corner logic ===== -->
   <script>
@@ -185,13 +191,9 @@
         window.addEventListener('resize', ()=>board && board.resize());
       }
 
-      // ================================================================= //
-      // ===== THE ONLY CHANGE IS IN THE FUNCTION BELOW ===== //
-      // ================================================================= //
       function createEngine(){
         try {
           // Stockfish is an ES module, so it must be loaded as a module worker.
-          // We add { type: 'module' } to tell the browser how to load it.
           return new Worker('assets/vendor/stockfish.js', { type: 'module' });
         } catch (e) {
           console.error('Error creating Stockfish worker:', e);
