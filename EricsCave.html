@@ -155,24 +155,30 @@
 
   <noscript><p style="max-width:820px;margin:2rem auto;color:#a00;">This page needs JavaScript for the gate. Enable JS to continue.</p></noscript>
 
-  <!-- ===== Libraries (with reliable CDNs + fallback) ===== -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- ===== Libraries (replace this whole block) ===== -->
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
 
-  <!-- chess.js (global window.Chess) -->
-  <script src="https://cdn.jsdelivr.net/npm/chess.js@0.13.4/chess.min.js"></script>
+<!-- jQuery (needed by chessboard.js) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-  <!-- chessboard.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+<!-- chess.js UMD build that exposes window.Chess (NOT the ESM build) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
 
-  <!-- Stockfish (primary) -->
-  <script src="https://cdn.jsdelivr.net/npm/stockfish@16.1.0/stockfish.js"></script>
-  <!-- Fallback Stockfish (if CDN blocked) -->
-  <script>
-    if(!window.STOCKFISH && !window.Stockfish){
-      var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/gh/niklasf/stockfish.js/stockfish.js'; document.body.appendChild(s);
-    }
-  </script>
+<!-- chessboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+
+<!-- Stockfish (primary) -->
+<script src="https://cdn.jsdelivr.net/npm/stockfish@16.1.0/stockfish.js"></script>
+<!-- Fallback Stockfish if the above is blocked -->
+<script>
+  if (!window.STOCKFISH && !window.Stockfish) {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/gh/niklasf/stockfish.js/stockfish.js';
+    document.body.appendChild(s);
+  }
+</script>
+
 
   <!-- ===== Chess corner logic ===== -->
   <script>
