@@ -42,13 +42,13 @@
     .mini-rating{margin-top:.75rem;font-size:.95rem}
     .mini-rating #ratingList{margin-top:.25rem;display:grid;grid-template-columns:repeat(3,auto);gap:.6rem 1rem}
 
-    /* Lichess embed: cap width so it centers & remove letterboxing */
+    /* Lichess embed: cap width so it centers & avoid letterboxing */
     .embed-wrap{
       position:relative;
       width:100%;
-      max-width:420px;         /* << keep the viewer nicely centered */
+      max-width:420px;
       margin-inline:auto;
-      aspect-ratio:1 / 1.22;   /* a tad taller to include header/moves */
+      aspect-ratio: 1 / 1.22; /* tall enough for header/moves */
     }
     .embed-wrap iframe{
       position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:10px
@@ -155,33 +155,23 @@
 
   <noscript><p style="max-width:820px;margin:2rem auto;color:#a00;">This page needs JavaScript for the gate. Enable JS to continue.</p></noscript>
 
-<!-- jQuery (required by chessboard.js) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7... (truncated)"
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- jQuery (required by chessboard.js) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-<!-- chess.js UMD (NOT the modern ESM build) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"
-        integrity="sha512-S2d/2... (truncated)"
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- chess.js UMD (NOT the modern ESM build) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
 
-<!-- chessboard.js -->
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"
-        integrity="sha512-3m8kA... (truncated)"
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- chessboard.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
 
-<!-- Stockfish: load from your repo to avoid the MIME/nosniff issue -->
-<script src="assets/vendor/stockfish.js"></script>
-
-
-
+  <!-- Stockfish (local copy in your repo). This file may be a worker build (no globals). -->
+  <script src="assets/vendor/stockfish.js"></script>
 
   <!-- ===== Chess corner logic ===== -->
   <script>
     (function () {
-      /* --- Best win embed (centered and sized) --- */
+      /* --- Best win embed --- */
       const BEST_ID = 'JGHVTwkz';
       const frame = document.getElementById('gameEmbed');
       frame.src = `https://lichess.org/embed/game/${BEST_ID}?theme=auto&bg=auto`;
@@ -237,20 +227,31 @@
             maybeEngineMove();
           }
         });
-        // Ensure proper sizing
         setTimeout(()=>board.resize(), 0);
-        window.addEventListener('resize', ()=>board && board.resize());
+        addEventListener('resize', ()=>board && board.resize());
       }
 
       function createEngine(){
+        // Try a global factory first (some builds expose STOCKFISH/Stockfish)
         const factory = window.STOCKFISH || window.Stockfish;
-        if(!factory) return null;
-        try { return factory(); } catch { return null; }
+        if (typeof factory === 'function') {
+          try { return factory(); } catch {}
+        }
+        // Fallback: your local file is a worker build; spawn it directly.
+        try {
+          return new Worker('assets/vendor/stockfish.js');
+        } catch (e) {
+          console.error(e);
+          return null;
+        }
       }
 
       function initEngine(){
         engine = createEngine();
-        if(!engine){ statusEl.textContent='Could not load Stockfish (network blocked?).'; return; }
+        if(!engine){
+          statusEl.textContent='Could not load Stockfish.';
+          return;
+        }
 
         statusEl.textContent = 'Loading engine…';
 
@@ -264,7 +265,7 @@
             statusEl.textContent = 'Engine ready';
             engine.postMessage('setoption name UCI_LimitStrength value true');
             engine.postMessage(`setoption name UCI_Elo value ${ELO_TARGET}`);
-            engine.postMessage('setoption name Skill Level value 8'); // fallback for older builds
+            engine.postMessage('setoption name Skill Level value 8');
             maybeEngineMove();
             return;
           }
@@ -286,7 +287,7 @@
       function engineGo(){
         if(!engineReady) return;
         engine.postMessage(`position fen ${game.fen()}`);
-        engine.postMessage('go movetime 1200');  // make engine think ~1.2s per move
+        engine.postMessage('go movetime 1200');  // ~1.2s think time
         statusEl.textContent = 'Thinking…';
       }
 
@@ -299,19 +300,17 @@
         game.reset();
         board.orientation(playerColor);
         board.start();
-        if(engine) engine.postMessage('ucinewgame');
+        if(engine){ engineReady=false; engine.postMessage('ucinewgame'); engine.postMessage('isready'); }
         board.resize();
         maybeEngineMove();
       }
 
-      // Wire up controls
       colorRadios.forEach(r => r.addEventListener('change', ()=>{
         playerColor = document.querySelector('input[name="color"]:checked').value;
         resetGame();
       }));
       newBtn.addEventListener('click', resetGame);
 
-      // Init
       initBoard();
       initEngine();
       if(playerColor==='black') maybeEngineMove();
@@ -319,4 +318,3 @@
   </script>
 </body>
 </html>
-
