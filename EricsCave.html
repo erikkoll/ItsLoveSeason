@@ -154,13 +154,37 @@
     })();
   </script>
 
-  <!-- ===== Libraries (working CDNs, no SRI) ===== -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js" referrerpolicy="no-referrer"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js" referrerpolicy="no-referrer"></script>
-  <!-- Local Stockfish (place the file at assets/vendor/stockfish.js) -->
-  <script src="assets/vendor/stockfish.js"></script>
+ <!-- ===== Libraries (pin stable UMD builds; add fallbacks) ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" referrerpolicy="no-referrer"></script>
+
+<!-- chess.js 0.13.4 UMD (gives global `Chess`) -->
+<script id="lib-chess" src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js" referrerpolicy="no-referrer"></script>
+
+<!-- chessboard.js 1.0.0 -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
+<script id="lib-chessboard"
+        src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"
+        referrerpolicy="no-referrer"></script>
+
+<!-- If either CDN is blocked, load a second source as a fallback -->
+<script>
+  (function () {
+    function add(src){ var s=document.createElement('script'); s.src=src; document.head.appendChild(s); }
+    // fallback for chess.js
+    if (typeof window.Chess === 'undefined') {
+      add('https://cdn.jsdelivr.net/gh/jhlywa/chess.js@0.13.4/chess.min.js');
+    }
+    // fallback for chessboard.js
+    if (typeof window.Chessboard === 'undefined') {
+      add('https://cdn.jsdelivr.net/npm/chessboard-js@1.0.0/dist/chessboard-1.0.0.min.js');
+    }
+  })();
+</script>
+
+<!-- Local Stockfish (place the file at /assets/vendor/stockfish.js) -->
+<script src="assets/vendor/stockfish.js"></script>
+
 
   <!-- ===== Chess corner logic ===== -->
   <script>
@@ -224,11 +248,19 @@
         window.addEventListener('resize', ()=>board && board.resize());
       }
 
-      function createEngine(){
-        const factory = window.STOCKFISH || window.Stockfish;
-        if(!factory) return null;
-        try { return factory(); } catch { return null; }
-      }
+function createEngine(){
+  try {
+    // Factory build (global function)
+    if (window.STOCKFISH || window.Stockfish) {
+      return (window.STOCKFISH || window.Stockfish)();
+    }
+    // Worker-only build (no factory on window)
+    return new Worker('assets/vendor/stockfish.js');
+  } catch (e) {
+    return null;
+  }
+}
+
 
       function initEngine(){
         engine = createEngine();
