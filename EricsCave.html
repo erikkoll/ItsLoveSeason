@@ -106,15 +106,15 @@
   <script>
     (function(){
       // ... (gate logic is unchanged)
-      const gate=document.getElementById('gate');const form=document.getElementById('gateForm');const input=document.getElementById('answer');const hint=document.getElementById('gateHint');const content=document.getElementById('secret-content');let tries=0;function openContent(){ gate.style.display='none'; content.classList.remove('blurred'); document.body.classList.remove('no-scroll'); try{localStorage.setItem('deep_thought_ok','1')}catch(e){} }function normalise(s){ return (s||'').trim().toLowerCase().replace(/[.,!?]/g,'').replace(/[-\s]+/g,' '); }try{ if(localStorage.getItem('deep_thought_ok')==='1'){ openContent(); return; } }catch(e){}document.body.classList.add('no-scroll');form.addEventListener('submit',e=>{e.preventDefault();const a=normalise(input.value);if(a==='42'||a==='forty two'||a==='forty-two'||a==='fortytwo'){ openContent(); return; }tries++; hint.textContent = tries===1?'Close… ask Dought.':tries===2?'It’s a two-digit number.':'Promise: the answer is shorter than the question.'; input.select();});
+      const gate=document.getElementById('gate');const form=document.getElementById('gateForm');const input=document.getElementById('answer');const hint=document.getElementById('gateHint');const content=document.getElementById('secret-content');let tries=0;function openContent(){ gate.style.display='none'; content.classList.remove('blurred'); document.body.classList.remove('no-scroll'); try{localStorage.setItem('deep_thought_ok','1')}catch(e){} }function normalise(s){ return (s||'').trim().toLowerCase().replace(/[.,!?]/g,'').replace(/[-\s]+/g,' '); }try{ if(localStorage.getItem('deep_thought_ok')==='1'){ openContent(); return; } }catch(e){}document.body.classList.add('no-scroll');form.addEventListener('submit',e=>{e.preventDefault();const a=normalise(input.value);if(a==='42'||a==='forty two'||a==='forty-two'||a==='fortytwo'){ openContent(); return; }tries++; hint.textContent = tries===1?'Close… ask Deep Thought.':tries===2?'It’s a two-digit number.':'Promise: the answer is shorter than the question.'; input.select();});
     })();
   </script>
 
- <!-- ===== Libraries (Simplified) ===== -->
+ <!-- ===== Libraries (Verified Correct URLs) ===== -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chess.js@0.13.4/chess.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessboard-js@1.0.0/dist/chessboard-1.0.0.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/chessboard-js@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessboard-js@1.0.0/chessboard-1.0.0.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/chessboard-js@1.0.0/chessboard-1.0.0.min.js"></script>
 
   <!-- ===== Chess corner logic ===== -->
   <script>
@@ -178,7 +178,6 @@
 
       function createEngine(){
         try {
-          // Stockfish is an ES module, so it must be loaded as a module worker.
           return new Worker('assets/vendor/stockfish.js', { type: 'module' });
         } catch (e) {
           console.error('Error creating Stockfish worker:', e);
