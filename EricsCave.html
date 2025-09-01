@@ -120,9 +120,9 @@
 <script>
   (function () {
     function add(src){ var s=document.createElement('script'); s.src=src; document.head.appendChild(s); }
-    // fallback for chess.js - CORRECTED
+    // fallback for chess.js - FINAL CORRECTION
     if (typeof window.Chess === 'undefined') {
-      add('https://unpkg.com/chess.js@0.13.4/dist/chess.min.js');
+      add('https://cdn.jsdelivr.net/npm/chess.js@0.13.4/chess.min.js');
     }
     // fallback for chessboard.js
     if (typeof window.Chessboard === 'undefined') {
