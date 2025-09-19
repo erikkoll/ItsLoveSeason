@@ -517,12 +517,19 @@ a { color: var(--accent); text-decoration: none; }
 .dress-code-board {
   display: flex;
   justify-content: center;
+  max-width: 380px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .dress-code-board iframe,
-.dress-code-board .pinterest-embed {
+.dress-code-board .pinterest-board,
+.dress-code-board .pinterest-embed,
+.dress-code-board > div {
   border-radius: 16px !important;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 @media (max-width: 900px) {
@@ -538,6 +545,16 @@ a { color: var(--accent); text-decoration: none; }
 
   .dress-code-board {
     order: -1;
+    width: min(100%, 320px);
+    margin-inline: auto;
+  }
+
+  .dress-code-board iframe,
+  .dress-code-board .pinterest-board,
+  .dress-code-board .pinterest-embed,
+  .dress-code-board > div {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .dress-code {
@@ -595,4 +612,6 @@ a { color: var(--accent); text-decoration: none; }
 .travel-callout::after {
   content: none !important;   /* or display: none; */
 }
+
+
 
