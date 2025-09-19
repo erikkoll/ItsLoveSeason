@@ -1,4 +1,4 @@
-/* ===================================================================
+﻿/* ===================================================================
    GLOBAL RESET & VARIABLES
    =================================================================== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -485,6 +485,66 @@ a { color: var(--accent); text-decoration: none; }
 }
 
 
+/* DRESS CODE */
+.dress-code {
+  padding: clamp(2.8rem, 6vw, 4.2rem) 1.5rem;
+  margin: 0 auto clamp(2.5rem, 6vw, 4.5rem);
+  max-width: 1100px;
+}
+
+.dress-code-inner {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.08);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.8rem, 4vw, 3.2rem);
+  padding: clamp(2.2rem, 5vw, 3.4rem);
+  align-items: center;
+}
+
+.dress-code-text h2 {
+  font-size: clamp(2rem, 3.6vw, 2.6rem);
+  margin-bottom: 1rem;
+}
+
+.dress-code-text p {
+  margin: 0 0 1rem;
+  max-width: 48ch;
+  color: #333;
+}
+
+.dress-code-board {
+  display: flex;
+  justify-content: center;
+}
+
+.dress-code-board iframe,
+.dress-code-board .pinterest-embed {
+  border-radius: 16px !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 900px) {
+  .dress-code-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .dress-code-text p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .dress-code-board {
+    order: -1;
+  }
+
+  .dress-code {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
 /* Travel callout: keep side lines behind the text and a bit shorter */
 .travel-callout { position: relative; }
 .travel-callout::before,
@@ -535,3 +595,4 @@ a { color: var(--accent); text-decoration: none; }
 .travel-callout::after {
   content: none !important;   /* or display: none; */
 }
+
