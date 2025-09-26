@@ -316,6 +316,10 @@ a { color: var(--accent); text-decoration: none; }
 .story-text{ color: var(--color-text); }
 .event-caption{ font-size: 1.125rem; line-height: 1.6; }
 
+.story-event a{ color: #0b57d0; text-decoration: underline; }
+.story-event a:hover{ color: #063970; }
+
+
 .story-quotes{
   display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
   background: #fafafa; padding: 3rem 2rem; text-align: center;
@@ -612,6 +616,4 @@ a { color: var(--accent); text-decoration: none; }
 .travel-callout::after {
   content: none !important;   /* or display: none; */
 }
-
-
 
