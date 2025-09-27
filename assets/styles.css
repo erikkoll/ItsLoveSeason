@@ -462,6 +462,7 @@ a { color: var(--accent); text-decoration: none; }
 }
 
 .btn{
+  
   display: inline-block; border-radius: 8px; padding: .6rem 1rem;
   background: #f3e7b5; border: 1px solid #dcc57b; color: #111; text-decoration: none; font-weight: 600;
 }
