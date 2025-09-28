@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de regalos | Eric y Gabriela</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  <!-- Navegación -->
+  <nav class="main-nav">
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="story.html">Nuestra historia</a></li>
+      <li><a href="travel.html">Viaje y estancia</a></li>
+      <li><a href="https://withjoy.com/eric-and-gabriela/registry">Lista de regalos</a></li>
+      <li><a href="https://withjoy.com/eric-and-gabriela/rsvp" class="btn" target="_blank" rel="noopener">Confirmar asistencia</a></li>
+      <li><a href="../registry.html" hreflang="en">EN</a></li>
+    </ul>
+  </nav>
+
+  <main class="registry-page">
+    <section class="registry-intro">
+      <h1>Nuestra lista de bodas</h1>
+      <p>
+        ¡Vuestra presencia en nuestro gran día es el mejor regalo!
+        Pero si os apetece ayudarnos a comenzar esta nueva etapa, hemos creado una lista en:
+      </p>
+    </section>
+
+    <section class="registry-links">
+      <ul>
+        <li>
+          <a href="https://www.zola.com/registry/ericgabriela" target="_blank" rel="noopener">
+            Lista en Zola
+          </a>
+        </li>
+        <li>
+          <a href="https://www.amazon.com/wedding/registry/ericgabriela" target="_blank" rel="noopener">
+            Lista en Amazon
+          </a>
+        </li>
+        <li>
+          <a href="https://www.theknot.com/us/eric-gabriela-n123456/registry" target="_blank" rel="noopener">
+            Lista en The Knot
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script>
+    fetch('footer.html')
+      .then(r => r.text())
+      .then(html => { document.getElementById('site-footer').outerHTML = html; });
+  </script>
+</body>
+</html>
+

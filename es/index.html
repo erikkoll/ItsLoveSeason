@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Eric y Gabriela | Sábado, 16 de mayo de 2026</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+</head>
+<body>
+  <!-- Navegación -->
+  <nav class="main-nav">
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="story.html">Nuestra historia</a></li>
+      <li><a href="travel.html">Viaje y estancia</a></li>
+      <li><a href="https://withjoy.com/eric-and-gabriela/registry">Lista de regalos</a></li>
+      <li><a href="https://withjoy.com/eric-and-gabriela/rsvp" class="btn" target="_blank" rel="noopener">Confirmar asistencia</a></li>
+      <li><a href="../index.html" hreflang="en">EN</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-title">
+      <h2>La boda de</h2>
+      <h1>Eric y Gabriela</h1>
+    </div>
+    <div class="hero-cta">
+      <p class="date">Sábado, 16 de mayo de 2026</p>
+    </div>
+  </section>
+
+  <!-- PROGRAMA -->
+  <section class="schedule">
+    <div class="schedule-row">
+      <div class="schedule-img">
+        <img src="../assets/img/jardi.jpg"
+             alt="Ceremonia en el Jardí Botànic Marimurtra" />
+      </div>
+      <div class="schedule-text">
+        <h2>Ceremonia</h2>
+        <p class="time">16 de mayo de 2026, 16:00</p>
+        <p class="location">
+          Jardí Botànic Marimurtra<br>
+          Blanes, España
+        </p>
+        <p><a href="https://maps.app.goo.gl/f2wMGJErYqBwvPzP7" target="_blank" rel="noopener">Mapa →</a></p>
+      </div>
+    </div>
+
+    <div class="schedule-row reverse">
+      <div class="schedule-img">
+        <img src="../assets/img/hotel.jpg"
+             alt="Cena y fiesta en el Hotel Santa Marta" />
+      </div>
+      <div class="schedule-text">
+        <h2>Recepción</h2>
+        <p class="time">16 de mayo de 2026, 19:30 – 22:00</p>
+        <p class="location">
+          Hotel Santa Marta<br>
+          Lloret de Mar, España
+        </p>
+        <p><a href="https://maps.app.goo.gl/3KkPaFEz5X2BqVGv5" target="_blank" rel="noopener">Mapa →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="travel-callout">
+    <p>
+      Podéis encontrar más información sobre viajes y alojamiento
+      <a href="travel.html" class="link-btn">aquí</a>.
+    </p>
+  </section>
+
+  <section class="dress-code">
+    <div class="dress-code-inner">
+      <div class="dress-code-text">
+        <h2>Código de vestimenta</h2>
+        <p>Os pedimos que vistáis un estilo semiformal que refleje el ambiente mediterráneo de la costa.</p>
+        <p>Colores suaves, tonos alegres, tejidos ligeros y calzado cómodo os ayudarán a disfrutar de los jardines y las vistas al mar.</p>
+        <p>Por favor reservad el blanco para la novia y evitad el negro si es posible. ¡Echad un vistazo a nuestro tablero de Pinterest para inspiraros!</p>
+      </div>
+      <div class="dress-code-board">
+        <a data-pin-do="embedBoard"
+           data-pin-board-width="320"
+           data-pin-scale-height="320"
+           data-pin-scale-width="60"
+           href="https://pinterest.com/gabipalma98/gabriela-eric-2026/?invite_code=7c30b4a2ecde4547b96f5699393e1bb2&sender=383087649461642541"></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="see-how">
+    <h2>Descubre cómo empezó todo</h2>
+    <div class="see-how-img">
+      <img src="../assets/img/see-how.jpg" alt="Eric y Gabriela juntos" />
+    </div>
+    <div class="see-how-cta">
+      <hr />
+      <a href="story.html" class="btn outline">Nuestra historia</a>
+      <hr />
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script async defer src="https://assets.pinterest.com/js/pinit.js"></script>
+  <script>
+    fetch('footer.html')
+      .then(r => r.text())
+      .then(html => { document.getElementById('site-footer').outerHTML = html; });
+  </script>
+</body>
+</html>
+
