@@ -13,6 +13,7 @@
   /* Aliases you reference elsewhere */
   --color-bg: var(--bg);
   --color-text: var(--text);
+  --gutter-mobile: clamp(1rem, 5vw, 1.2rem);
 }
 
 body {
@@ -78,6 +79,11 @@ a { color: var(--accent); text-decoration: none; }
   .main-nav a{ width: 100%; justify-content: center; }
   .main-nav .btn{ width: 100%; justify-content: center; }
 }
+@media (max-width: 600px){
+  main{ padding-inline: var(--gutter-mobile); }
+  .site-footer{ padding-inline: var(--gutter-mobile); }
+}
+
 @media (max-width: 400px){
   .main-nav ul{ gap: .55rem; }
   .main-nav .btn{ padding: .32rem .6rem; }
@@ -623,5 +629,4 @@ a { color: var(--accent); text-decoration: none; }
 .travel-callout::after {
   content: none !important;   /* or display: none; */
 }
-
 
