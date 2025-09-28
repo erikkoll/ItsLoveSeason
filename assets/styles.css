@@ -165,7 +165,7 @@ a { color: var(--accent); text-decoration: none; }
 .schedule-row.reverse { flex-direction: row-reverse; }
 
 .schedule-img img {
-  width: 100%;
+  width: 90%;
   height: auto;
   border-radius: 8px;
   object-fit: cover;
