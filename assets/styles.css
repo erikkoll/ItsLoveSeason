@@ -72,6 +72,12 @@ a { color: var(--accent); text-decoration: none; }
 }
 
 /* Tiny phones: squeeze a bit more spacing */
+@media (max-width: 580px){
+  .main-nav ul{ flex-wrap: wrap; justify-content: center; gap: .5rem 1rem; }
+  .main-nav li{ flex: 1 1 calc(50% - 1rem); display: flex; justify-content: center; }
+  .main-nav a{ width: 100%; justify-content: center; }
+  .main-nav .btn{ width: 100%; justify-content: center; }
+}
 @media (max-width: 400px){
   .main-nav ul{ gap: .55rem; }
   .main-nav .btn{ padding: .32rem .6rem; }
@@ -617,4 +623,5 @@ a { color: var(--accent); text-decoration: none; }
 .travel-callout::after {
   content: none !important;   /* or display: none; */
 }
+
 
