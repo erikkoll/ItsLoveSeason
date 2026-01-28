@@ -60,54 +60,12 @@
 <section class="hotel-booking softcard" id="hotel-booking">
   <h2>Where to stay</h2>
   <p>
-    To be close to the dinner &amp; party, many guests are choosing
     <a href="https://hotelsantamarta.es/en/" target="_blank" rel="noopener">Hotel Santa Marta</a>
-    (our reception venue). If you book directly, use the code
-    <span class="code-badge" id="discount-code" data-code="PalmaColl">PalmaColl</span>
-    for a 10% discount. We recommend booking asap to ensure that rooms are available.
+    (our reception venue) is now fully booked. We recommend finding accommodation in Blanes or Lloret de Mar,
+    where there are plenty of options available. Both towns are close to the ceremony and reception venues.
   </p>
-
-  <div class="booking-actions">
-    <a href="https://hotelsantamarta.es/en/" class="btn btn-primary subtle" target="_blank" rel="noopener">
-      Open hotel website
-    </a>
-    <button class="btn btn-ghost" id="copy-code" type="button">
-      Copy code
-    </button>
-    <span class="copy-status" id="copy-status" aria-live="polite"></span>
-  </div>
-  <p class="hotel-note">There's plenty of accommodations around Blanes and Lloret de Mar for those who'd prefer a different option.</p>
 </section>
 
-<!-- keep your existing copy-to-clipboard script; it already targets #copy-code -->
-
-
-
-<!-- Copy-to-clipboard -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('copy-code');
-    const badge = document.getElementById('discount-code');
-    const status = document.getElementById('copy-status');
-    if (!btn || !badge) return;
-
-    btn.addEventListener('click', async () => {
-      const code = badge.dataset.code || badge.textContent.trim();
-      try {
-        await navigator.clipboard.writeText(code);
-        btn.classList.add('copied');
-        btn.textContent = '✓ Copied';
-        status.textContent = '';
-        setTimeout(() => {
-          btn.classList.remove('copied');
-          btn.innerHTML = '<span aria-hidden="true">📋</span> Copy code';
-        }, 1500);
-      } catch (e) {
-        status.textContent = 'Copy failed';
-      }
-    });
-  });
-</script>
 <div id="site-footer"></div>
 <script>
   fetch('footer.html')

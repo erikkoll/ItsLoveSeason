@@ -55,50 +55,12 @@
     <section class="hotel-booking softcard" id="hotel-booking">
       <h2>Dónde alojarse</h2>
       <p>
-        Para estar cerca de la cena y la fiesta, muchos invitados se quedarán en
         <a href="https://hotelsantamarta.es/en/" target="_blank" rel="noopener">Hotel Santa Marta</a>
-        (nuestro lugar de recepción). Si reserváis directamente, utilizad el código
-        <span class="code-badge" id="discount-code" data-code="PalmaColl">PalmaColl</span>
-        para un 10&nbsp;% de descuento. Os recomendamos reservar cuanto antes para asegurar disponibilidad.
+        (nuestro lugar de recepción) está ahora completo. Os recomendamos buscar alojamiento en Blanes o Lloret de Mar,
+        donde hay muchas opciones disponibles. Ambos pueblos están cerca de los lugares de la ceremonia y la recepción.
       </p>
-
-      <div class="booking-actions">
-        <a href="https://hotelsantamarta.es/en/" class="btn btn-primary subtle" target="_blank" rel="noopener">
-          Abrir web del hotel
-        </a>
-        <button class="btn btn-ghost" id="copy-code" type="button">
-          Copiar código
-        </button>
-        <span class="copy-status" id="copy-status" aria-live="polite"></span>
-      </div>
-      <p class="hotel-note">Hay muchas opciones de alojamiento en los alrededores de Blanes y Lloret de Mar para quienes prefieran otra alternativa.</p>
     </section>
   </main>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('copy-code');
-      const badge = document.getElementById('discount-code');
-      const status = document.getElementById('copy-status');
-      if (!btn || !badge) return;
-
-      btn.addEventListener('click', async () => {
-        const code = badge.dataset.code || badge.textContent.trim();
-        try {
-          await navigator.clipboard.writeText(code);
-          btn.classList.add('copied');
-          btn.textContent = '✓ Copiado';
-          status.textContent = '';
-          setTimeout(() => {
-            btn.classList.remove('copied');
-            btn.innerHTML = '<span aria-hidden="true">📋</span> Copiar código';
-          }, 1500);
-        } catch (e) {
-          status.textContent = 'No se pudo copiar';
-        }
-      });
-    });
-  </script>
 
   <div id="site-footer"></div>
   <script>
@@ -108,4 +70,3 @@
   </script>
 </body>
 </html>
-
