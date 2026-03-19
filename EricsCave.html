@@ -7,34 +7,90 @@
   <link rel="stylesheet" href="assets/styles.css" />
 
   <style>
-    /* ... (all your existing CSS styles) ... */
+    :root{
+      --cave-pink:#ff3cac;
+      --cave-cyan:#10f0ff;
+      --cave-lime:#d8ff3f;
+      --cave-gold:#ffd35c;
+    }
+    body{
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top, rgba(255,60,172,.18), transparent 30%),
+        radial-gradient(circle at 80% 15%, rgba(16,240,255,.18), transparent 26%),
+        linear-gradient(180deg, #130322 0%, #05010d 55%, #020106 100%);
+      color:#f8f6ff;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.12), transparent 24%),
+        radial-gradient(circle at 80% 10%, rgba(255,255,255,.1), transparent 20%),
+        radial-gradient(circle at 50% 50%, rgba(16,240,255,.08), transparent 35%);
+      mix-blend-mode:screen;
+      opacity:.6;
+      pointer-events:none;
+      z-index:-3;
+      animation:aurora-sway 14s linear infinite alternate;
+    }
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 2px, transparent 2px 6px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 1px, transparent 1px 7px);
+      opacity:.15;
+      mix-blend-mode:soft-light;
+      pointer-events:none;
+      z-index:-2;
+    }
     .gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:grid;place-items:center;z-index:1000}
-    .gate-card{background:#fff;border-radius:14px;max-width:560px;width:calc(100% - 2rem);padding:1.75rem;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center}
-    .gate-card h2{margin:0 0 .5rem;font-family:var(--font-serif)}
+    .gate-card{background:linear-gradient(180deg, rgba(20,8,40,.96), rgba(7,3,18,.96));border:1px solid rgba(255,255,255,.14);border-radius:18px;max-width:560px;width:calc(100% - 2rem);padding:1.75rem;box-shadow:0 20px 80px rgba(0,0,0,.5),0 0 50px rgba(255,60,172,.18);text-align:center;color:#fff}
+    .gate-card h2{margin:0 0 .5rem;font-family:var(--font-serif);letter-spacing:.06em;text-transform:uppercase}
     .gate-card p{margin:.25rem 0 1rem;line-height:1.6}
     .gate-form{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
-    .gate-form input[type="text"]{padding:.6rem .75rem;border:1px solid #ddd;border-radius:8px;min-width:200px;font-size:1rem}
-    .gate-form button{padding:.6rem 1rem;border-radius:8px;border:1px solid #b8952b;background:#D4AF37;color:#111;font-weight:600;cursor:pointer}
-    .gate-hint{min-height:1.25rem;color:#555;font-size:.95rem;margin-top:.4rem}
+    .gate-form input[type="text"]{padding:.6rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;min-width:200px;font-size:1rem;background:rgba(255,255,255,.08);color:#fff}
+    .gate-form button{padding:.6rem 1rem;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:linear-gradient(90deg, var(--cave-gold), #ff8c42);color:#111;font-weight:700;cursor:pointer}
+    .gate-hint{min-height:1.25rem;color:#f4d9ff;font-size:.95rem;margin-top:.4rem}
     .no-scroll{overflow:hidden}
     #secret-content{transition:filter 220ms ease}
     #secret-content.blurred{filter:blur(10px);pointer-events:none;user-select:none}
     @media (prefers-reduced-motion:reduce){#secret-content{transition:none}}
+    .cave-stage{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+    .cave-stage .spotlight{position:absolute;top:-12vh;width:36vw;height:90vh;background:linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,0));clip-path:polygon(50% 0, 100% 100%, 0 100%);filter:blur(4px);opacity:.16;transform-origin:50% 0;mix-blend-mode:screen}
+    .spotlight-1{left:3vw;background:linear-gradient(180deg, rgba(255,60,172,.55), rgba(255,60,172,0));animation:beam-sway 7s ease-in-out infinite alternate}
+    .spotlight-2{left:24vw;background:linear-gradient(180deg, rgba(16,240,255,.55), rgba(16,240,255,0));animation:beam-sway 9s ease-in-out infinite alternate-reverse}
+    .spotlight-3{right:18vw;background:linear-gradient(180deg, rgba(216,255,63,.5), rgba(216,255,63,0));animation:beam-sway 8s ease-in-out infinite alternate}
+    .spotlight-4{right:-2vw;background:linear-gradient(180deg, rgba(255,211,92,.5), rgba(255,211,92,0));animation:beam-sway 10s ease-in-out infinite alternate-reverse}
+    .disco-ball{position:absolute;left:50%;top:2rem;width:150px;height:150px;margin-left:-75px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.35) 15%, transparent 16%),linear-gradient(90deg, rgba(255,255,255,.15) 0 4%, transparent 4% 8%, rgba(255,255,255,.12) 8% 12%, transparent 12% 16%),linear-gradient(0deg, rgba(255,255,255,.16) 0 4%, transparent 4% 8%, rgba(255,255,255,.12) 8% 12%, transparent 12% 16%),radial-gradient(circle at 50% 35%, #fefefe 0%, #b8bfd4 45%, #697089 75%, #2c3042 100%);box-shadow:0 0 40px rgba(255,255,255,.25), 0 0 85px rgba(16,240,255,.22);animation:spin-ball 5.2s linear infinite}
+    .disco-ball::before{content:"";position:absolute;left:50%;top:-140px;width:3px;height:140px;margin-left:-1.5px;background:linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.15))}
+    .disco-ball::after{content:"";position:absolute;inset:-130px;background:radial-gradient(circle, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 60%);animation:pulse-glow 2.8s ease-in-out infinite alternate}
+    .grid-floor{position:absolute;left:-15vw;right:-15vw;bottom:-10vh;height:50vh;transform:perspective(440px) rotateX(73deg);transform-origin:bottom;background:linear-gradient(rgba(16,240,255,.18), rgba(16,240,255,.02)),repeating-linear-gradient(90deg, rgba(16,240,255,.35) 0 2px, transparent 2px 70px),repeating-linear-gradient(0deg, rgba(255,60,172,.4) 0 2px, transparent 2px 55px);box-shadow:0 -20px 120px rgba(16,240,255,.15);opacity:.8}
+    .cave-top{max-width:920px;margin:1.5rem auto 0;padding:0 1rem;text-align:center;position:relative}
+    .story-main-title.cave-title{margin-top:1rem;color:#fff;text-transform:uppercase;letter-spacing:.16em;text-shadow:0 0 12px rgba(255,255,255,.55), 0 0 28px rgba(255,60,172,.45), 0 0 56px rgba(16,240,255,.32);animation:title-wobble 4s ease-in-out infinite}
+    .cave-subtitle{max-width:760px;margin:.6rem auto 0;color:#ece4ff;line-height:1.7;text-transform:uppercase;letter-spacing:.1em;font-size:.95rem}
+    .warning-marquee{display:inline-flex;max-width:100%;margin:1.1rem auto 0;padding:.65rem 1rem;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(3,2,9,.55);box-shadow:0 10px 30px rgba(0,0,0,.18);white-space:nowrap;overflow:hidden}
+    .warning-marquee span{display:inline-block;padding-left:100%;font-weight:700;letter-spacing:.18em;color:var(--cave-gold);animation:marquee 14s linear infinite}
+    .chaos-panel{max-width:920px;margin:1.25rem auto 0;display:flex;gap:.8rem;justify-content:center;align-items:center;flex-wrap:wrap;padding:0 1rem}
     .chess-corner{max-width:1100px;margin:2rem auto;padding:0 1rem}
     .chess-title{text-align:center;font-family:var(--font-serif);margin-bottom:1rem}
     .chess-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
     @media (max-width:980px){.chess-grid{grid-template-columns:1fr 1fr}}
     @media (max-width:680px){.chess-grid{grid-template-columns:1fr}}
-    .card{background:#fff;border:1px solid #eee;border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.05);padding:1rem 1rem 1.2rem}
-    .card h3{margin:0 0 .4rem;font-family:var(--font-serif)}
+    .card{background:linear-gradient(180deg, rgba(16,10,31,.9), rgba(6,3,18,.88));border:1px solid rgba(255,255,255,.1);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.06), 0 0 0 1px rgba(255,60,172,.06);padding:1rem 1rem 1.2rem;color:#f8f6ff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+    .card h3{margin:0 0 .4rem;font-family:var(--font-serif);color:#fff}
     .inline{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
-    .btn{display:inline-block;border-radius:8px;padding:.6rem 1rem;background:#f3e7b5;border:1px solid #dcc57b;color:#111;text-decoration:none;font-weight:600}
-    .btn:hover{background:#eedc9a}
-    .btn.outline{background:transparent;border-color:#d9c890;color:#a9861f}
-    .btn.outline:hover{background:rgba(212,175,55,0.08)}
+    .btn{display:inline-block;border-radius:999px;padding:.6rem 1rem;background:linear-gradient(90deg, var(--cave-pink), #ff8c42);border:1px solid rgba(255,255,255,.12);color:#111;text-decoration:none;font-weight:700;box-shadow:0 10px 24px rgba(255,60,172,.24)}
+    .btn:hover{filter:brightness(1.08)}
+    .btn.outline{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.18);color:#fff;box-shadow:none}
+    .btn.outline:hover{background:rgba(255,255,255,.12)}
     .mini-rating{margin-top:.75rem;font-size:.95rem}
     .mini-rating #ratingList{margin-top:.25rem;display:grid;grid-template-columns:repeat(3,auto);gap:.6rem 1rem}
-    .embed-wrap{position:relative;width:100%;max-width:420px;margin-inline:auto;aspect-ratio:1 / 1.22;background:#222;border-radius:10px;overflow:hidden;}
+    .embed-wrap{position:relative;width:100%;max-width:420px;margin-inline:auto;aspect-ratio:1 / 1.22;background:#222;border-radius:10px;overflow:hidden}
     .embed-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
     .board-wrap{width:100%;max-width:420px;margin:0 auto}
     #ericBotBoard{width:100%}
@@ -47,12 +103,53 @@
     .si-controls p{color:#0f0;margin:0 0 .5rem;font-size:.9rem}
     #siStartBtn{background:#0f0;color:#000;border:none;padding:.6rem 1.2rem;border-radius:8px;font-weight:700;font-family:inherit;cursor:pointer;font-size:1rem}
     #siStartBtn:hover{background:#0a0}
+    .control-btn{border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:.7rem 1rem;background:rgba(255,255,255,.05);color:#fff;cursor:pointer;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+    .control-btn:hover{background:rgba(255,255,255,.12)}
+    .control-btn.active{background:linear-gradient(90deg, var(--cave-cyan), var(--cave-lime));color:#051018;box-shadow:0 0 30px rgba(16,240,255,.28)}
+    .chaos-status{min-width:240px;margin:0;color:#efe6ff;font-size:.95rem;text-transform:uppercase;letter-spacing:.08em}
+    body.cave-mode .card{animation:card-float 5.5s ease-in-out infinite}
+    body.hyperdrive .card:nth-child(2n){animation-duration:3.4s}
+    body.strobe-enabled main{animation:screen-flash 4.2s steps(1,end) infinite}
+    @media (prefers-reduced-motion:reduce){
+      body::before,
+      .spotlight-1,.spotlight-2,.spotlight-3,.spotlight-4,
+      .disco-ball,.warning-marquee span,
+      .story-main-title.cave-title,
+      body.cave-mode .card,
+      body.strobe-enabled main{animation:none}
+    }
+    @keyframes aurora-sway{from{transform:translate3d(-2%, -1%, 0) scale(1)}to{transform:translate3d(3%, 2%, 0) scale(1.08)}}
+    @keyframes beam-sway{from{transform:rotate(-22deg) scaleY(1)}to{transform:rotate(22deg) scaleY(1.08)}}
+    @keyframes spin-ball{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @keyframes pulse-glow{from{opacity:.35}to{opacity:.8}}
+    @keyframes title-wobble{0%,100%{transform:rotate(-1deg) scale(1)}50%{transform:rotate(1.2deg) scale(1.02)}}
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+    @keyframes card-float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(.4deg)}}
+    @keyframes screen-flash{0%,8%,10%,19%,21%,100%{filter:none}9%{filter:brightness(1.32) saturate(1.28)}20%{filter:brightness(1.18) saturate(1.4) hue-rotate(15deg)}}
   </style>
 </head>
 <body>
+  <div class="cave-stage" aria-hidden="true">
+    <div class="spotlight spotlight-1"></div>
+    <div class="spotlight spotlight-2"></div>
+    <div class="spotlight spotlight-3"></div>
+    <div class="spotlight spotlight-4"></div>
+    <div class="disco-ball"></div>
+    <div class="grid-floor"></div>
+  </div>
+
   <main id="secret-content" class="blurred">
-    <section style="max-width:820px;margin:2rem auto 0;padding:0 1rem;">
-      <h1 class="story-main-title" style="margin-top:1rem;text-align:center;">Eric's Cave</h1>
+    <section class="cave-top">
+      <h1 class="story-main-title cave-title">Eric's Cave</h1>
+      <p class="cave-subtitle">You found the illegal afterparty hidden inside the wedding website. Maintain plausible deniability.</p>
+      <div class="warning-marquee"><span>ACCESS GRANTED // DISCO PROTOCOL ACTIVE // TELL THE TAXI DRIVER NOTHING //</span></div>
+    </section>
+
+    <section class="chaos-panel">
+      <button id="musicToggle" class="control-btn" type="button">Start Cave Music</button>
+      <button id="strobeToggle" class="control-btn active" type="button">Strobe: On</button>
+      <button id="hyperToggle" class="control-btn" type="button">Hyperdrive: Off</button>
+      <p id="chaosStatus" class="chaos-status">Lights armed. Sound is standing by.</p>
     </section>
 
     <section class="chess-corner">
@@ -62,7 +159,7 @@
         <article class="card">
           <h3>Challenge Eric</h3>
           <p>Up for a game? Challenge me on Lichess.</p>
-          <a class="btn" href="https://lichess.org/@/erikkoll" target="_blank" rel="noopener">Open my Lichess profile ↗</a>
+          <a class="btn" href="https://lichess.org/@/erikkoll" target="_blank" rel="noopener">Open my Lichess profile -&gt;</a>
           <div class="mini-rating" id="ratingBox" hidden>
             <strong>Current ratings</strong>
             <div id="ratingList"></div>
@@ -71,15 +168,15 @@
         <!-- Card 2 -->
         <article class="card">
           <h3>Watch my best win</h3>
-          <p>Replay the game I’m most proud of.</p>
+          <p>Replay the game I'm most proud of.</p>
           <div class="embed-wrap">
             <iframe id="gameEmbed" title="Lichess game replay" loading="lazy" allowfullscreen></iframe>
           </div>
         </article>
         <!-- Card 3 -->
         <article class="card">
-          <h3>Play “Eric-level” bot</h3>
-          <p>Stockfish with limited strength (≈1614 Elo). Choose a side and play!</p>
+          <h3>Play "Eric-level" bot</h3>
+          <p>Stockfish with limited strength (about 1614 Elo). Choose a side and play!</p>
           <div class="board-wrap"><div id="ericBotBoard"></div></div>
           <div class="inline" style="margin-top:.6rem">
             <label><input type="radio" name="color" value="white"> You play White</label>
@@ -111,7 +208,7 @@
   <!-- Gate overlay -->
   <div class="gate-overlay" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
     <div class="gate-card" role="document">
-      <h2 id="gateTitle">Don’t Panic.</h2>
+      <h2 id="gateTitle">Don't Panic.</h2>
       <p>What is the answer to the ultimate question of Life, the Universe, and Everything?</p>
       <form class="gate-form" id="gateForm" autocomplete="off">
         <input type="text" id="answer" placeholder="Your answer" autofocus>
@@ -127,11 +224,221 @@
     fetch('footer.html').then(r=>r.text()).then(h=>{document.getElementById('site-footer').outerHTML = h;});
   </script>
 
-  <!-- Gate logic -->
   <script>
     (function(){
-      // ... (gate logic is unchanged)
-      const gate=document.getElementById('gate');const form=document.getElementById('gateForm');const input=document.getElementById('answer');const hint=document.getElementById('gateHint');const content=document.getElementById('secret-content');let tries=0;function openContent(){ gate.style.display='none'; content.classList.remove('blurred'); document.body.classList.remove('no-scroll'); try{localStorage.setItem('deep_thought_ok','1')}catch(e){} }function normalise(s){ return (s||'').trim().toLowerCase().replace(/[.,!?]/g,'').replace(/[-\s]+/g,' '); }try{ if(localStorage.getItem('deep_thought_ok')==='1'){ openContent(); return; } }catch(e){}document.body.classList.add('no-scroll');form.addEventListener('submit',e=>{e.preventDefault();const a=normalise(input.value);if(a==='42'||a==='forty two'||a==='forty-two'||a==='fortytwo'){ openContent(); return; }tries++; hint.textContent = tries===1?'Close… ask Deep Thought.':tries===2?'It’s a two-digit number.':'Promise: the answer is shorter than the question.'; input.select();});
+      const body = document.body;
+      const status = document.getElementById('chaosStatus');
+      const musicBtn = document.getElementById('musicToggle');
+      const strobeBtn = document.getElementById('strobeToggle');
+      const hyperBtn = document.getElementById('hyperToggle');
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let strobeEnabled = !prefersReducedMotion;
+      let hyperdrive = false;
+      let audioCtx = null;
+      let masterGain = null;
+      let beatTimer = null;
+      let beatIndex = 0;
+      let musicOn = false;
+
+      function updateStatus(text){
+        status.textContent = text;
+      }
+
+      function ensureAudio(){
+        if(audioCtx) return audioCtx;
+        const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+        if(!AudioContextCtor) return null;
+        audioCtx = new AudioContextCtor();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.12;
+        masterGain.connect(audioCtx.destination);
+        return audioCtx;
+      }
+
+      function note(freq, start, duration, type, gainValue){
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(gainValue, start + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+        osc.connect(gain);
+        gain.connect(masterGain);
+        osc.start(start);
+        osc.stop(start + duration + 0.02);
+      }
+
+      function kick(start){
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(150, start);
+        osc.frequency.exponentialRampToValueAtTime(45, start + 0.18);
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.55, start + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.22);
+        osc.connect(gain);
+        gain.connect(masterGain);
+        osc.start(start);
+        osc.stop(start + 0.25);
+      }
+
+      function hat(start){
+        const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.04, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for(let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+        const src = audioCtx.createBufferSource();
+        const filter = audioCtx.createBiquadFilter();
+        const gain = audioCtx.createGain();
+        src.buffer = buffer;
+        filter.type = 'highpass';
+        filter.frequency.value = 7000;
+        gain.gain.setValueAtTime(0.18, start);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.04);
+        src.connect(filter);
+        filter.connect(gain);
+        gain.connect(masterGain);
+        src.start(start);
+      }
+
+      function scheduleBeat(){
+        if(!audioCtx || !masterGain) return;
+        const bpm = hyperdrive ? 154 : 142;
+        const beat = 60 / bpm;
+        const now = audioCtx.currentTime + 0.03;
+        const bassline = [55, 55, 82.41, 73.42, 55, 55, 98, 82.41];
+        const leadline = [220, 246.94, 293.66, 329.63, 293.66, 246.94, 220, 329.63];
+        const bass = bassline[beatIndex % bassline.length];
+        const lead = leadline[beatIndex % leadline.length];
+
+        kick(now);
+        if(beatIndex % 2 === 1) kick(now + beat * 0.5);
+        hat(now + beat * 0.25);
+        hat(now + beat * 0.75);
+        note(bass, now, beat * 0.45, 'sawtooth', 0.14);
+        if(beatIndex % 2 === 0) note(lead, now + beat * 0.5, beat * 0.26, 'square', 0.08);
+        if(hyperdrive && beatIndex % 4 === 3) note(lead * 2, now + beat * 0.22, beat * 0.14, 'triangle', 0.05);
+
+        beatIndex++;
+        beatTimer = window.setTimeout(scheduleBeat, beat * 1000);
+      }
+
+      async function startMusic(){
+        const ctx = ensureAudio();
+        if(!ctx){
+          updateStatus('Browser audio is unavailable. Visual chaos remains operational.');
+          return;
+        }
+        if(ctx.state === 'suspended') await ctx.resume();
+        if(musicOn) return;
+        musicOn = true;
+        beatIndex = 0;
+        scheduleBeat();
+        musicBtn.classList.add('active');
+        musicBtn.textContent = 'Stop Cave Music';
+        updateStatus(hyperdrive ? 'Hyperdrive rave engaged.' : 'Cave soundtrack online.');
+      }
+
+      async function stopMusic(){
+        window.clearTimeout(beatTimer);
+        beatTimer = null;
+        if(audioCtx && audioCtx.state !== 'closed') await audioCtx.suspend();
+        musicOn = false;
+        musicBtn.classList.remove('active');
+        musicBtn.textContent = 'Start Cave Music';
+        updateStatus(hyperdrive ? 'Hyperdrive armed. Sound is paused.' : 'Lights armed. Sound is standing by.');
+      }
+
+      function setStrobe(next){
+        strobeEnabled = next;
+        body.classList.toggle('strobe-enabled', strobeEnabled);
+        strobeBtn.classList.toggle('active', strobeEnabled);
+        strobeBtn.textContent = 'Strobe: ' + (strobeEnabled ? 'On' : 'Off');
+      }
+
+      function setHyperdrive(next){
+        hyperdrive = next;
+        body.classList.toggle('hyperdrive', hyperdrive);
+        hyperBtn.classList.toggle('active', hyperdrive);
+        hyperBtn.textContent = 'Hyperdrive: ' + (hyperdrive ? 'On' : 'Off');
+        if(musicOn){
+          updateStatus(hyperdrive ? 'Hyperdrive rave engaged.' : 'Cave soundtrack online.');
+        } else {
+          updateStatus(hyperdrive ? 'Hyperdrive armed. Waiting for ignition.' : 'Lights armed. Sound is standing by.');
+        }
+      }
+
+      async function toggleMusic(){
+        if(musicOn) await stopMusic();
+        else await startMusic();
+      }
+
+      musicBtn.addEventListener('click', () => {
+        toggleMusic().catch(() => updateStatus('Audio start was blocked. Click again to retry.'));
+      });
+      strobeBtn.addEventListener('click', () => setStrobe(!strobeEnabled));
+      hyperBtn.addEventListener('click', () => setHyperdrive(!hyperdrive));
+      document.addEventListener('visibilitychange', () => {
+        if(document.hidden && musicOn) stopMusic().catch(() => {});
+      });
+
+      setStrobe(strobeEnabled);
+
+      window.startCaveParty = async function(fromUserGesture){
+        body.classList.add('cave-mode');
+        if(fromUserGesture){
+          try {
+            await startMusic();
+          } catch (e) {}
+        }
+      };
+    })();
+  </script>
+
+    <!-- Gate logic -->
+  <script>
+    (function(){
+      const gate = document.getElementById('gate');
+      const form = document.getElementById('gateForm');
+      const input = document.getElementById('answer');
+      const hint = document.getElementById('gateHint');
+      const content = document.getElementById('secret-content');
+      let tries = 0;
+
+      function openContent(fromUserGesture){
+        gate.style.display = 'none';
+        content.classList.remove('blurred');
+        document.body.classList.remove('no-scroll');
+        if(typeof window.startCaveParty === 'function') window.startCaveParty(Boolean(fromUserGesture));
+        try { localStorage.setItem('deep_thought_ok', '1'); } catch (e) {}
+      }
+
+      function normalise(s){
+        return (s || '').trim().toLowerCase().replace(/[.,!?]/g, '').replace(/[-\s]+/g, ' ');
+      }
+
+      try {
+        if(localStorage.getItem('deep_thought_ok') === '1'){
+          openContent(false);
+        } else {
+          document.body.classList.add('no-scroll');
+        }
+      } catch (e) {
+        document.body.classList.add('no-scroll');
+      }
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const a = normalise(input.value);
+        if(a === '42' || a === 'forty two' || a === 'forty-two' || a === 'fortytwo'){
+          openContent(true);
+          return;
+        }
+        tries++;
+        hint.textContent = tries === 1 ? 'Close... ask Deep Thought.' : tries === 2 ? "It's a two-digit number." : 'Promise: the answer is shorter than the question.';
+        input.select();
+      });
     })();
   </script>
 
@@ -215,7 +522,7 @@
         engine = createEngine();
         if(!engine){ statusEl.textContent='Could not load Stockfish.'; return; }
 
-        statusEl.textContent = 'Loading engine…';
+        statusEl.textContent = 'Loading engine...';
 
         engine.onmessage = (e)=>{
           const line = (typeof e === 'string') ? e : e.data;
@@ -250,7 +557,7 @@
         if(!engineReady) return;
         engine.postMessage(`position fen ${game.fen()}`);
         engine.postMessage('go movetime 1200');
-        statusEl.textContent = 'Thinking…';
+        statusEl.textContent = 'Thinking...';
       }
 
       function maybeEngineMove(){
@@ -520,3 +827,6 @@
   </script>
 </body>
 </html>
+
+
+
